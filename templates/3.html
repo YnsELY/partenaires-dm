@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Suivi d'intervention</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-secondary-fixed-variant": "#004b73",
+                      "error": "#ba1a1a",
+                      "secondary": "#006398",
+                      "on-surface": "#181c21",
+                      "on-primary": "#ffffff",
+                      "on-secondary-container": "#004971",
+                      "on-tertiary-fixed": "#351000",
+                      "tertiary-fixed-dim": "#ffb595",
+                      "outline-variant": "#c4c5d3",
+                      "inverse-surface": "#2d3136",
+                      "on-primary-container": "#91a9ff",
+                      "on-tertiary-container": "#fa9261",
+                      "surface-dim": "#d7dae1",
+                      "on-primary-fixed": "#00164e",
+                      "inverse-primary": "#b5c4ff",
+                      "background": "#f7f9ff",
+                      "on-error": "#ffffff",
+                      "secondary-fixed-dim": "#93ccff",
+                      "on-background": "#181c21",
+                      "surface": "#f7f9ff",
+                      "primary-fixed-dim": "#b5c4ff",
+                      "tertiary": "#4e1a00",
+                      "surface-variant": "#dfe2e9",
+                      "on-error-container": "#93000a",
+                      "primary-fixed": "#dce1ff",
+                      "primary-container": "#1a3a8f",
+                      "primary": "#00236f",
+                      "surface-container-lowest": "#ffffff",
+                      "on-tertiary": "#ffffff",
+                      "secondary-fixed": "#cce5ff",
+                      "inverse-on-surface": "#eef1f8",
+                      "surface-container-highest": "#dfe2e9",
+                      "surface-container": "#ebeef5",
+                      "on-primary-fixed-variant": "#224095",
+                      "outline": "#757683",
+                      "surface-container-high": "#e5e8ef",
+                      "secondary-container": "#64bafe",
+                      "on-surface-variant": "#444652",
+                      "on-tertiary-fixed-variant": "#7a3005",
+                      "surface-bright": "#f7f9ff",
+                      "tertiary-container": "#722a00",
+                      "surface-tint": "#3d59af",
+                      "on-secondary-fixed": "#001d31",
+                      "surface-container-low": "#f1f4fb",
+                      "tertiary-fixed": "#ffdbcc",
+                      "on-secondary": "#ffffff",
+                      "error-container": "#ffdad6"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {},
+              "fontFamily": {
+                      "headline": [
+                              "Inter"
+                      ],
+                      "body": [
+                              "Inter"
+                      ],
+                      "label": [
+                              "Inter"
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9ff;
+            color: #181c21;
+        }
+      </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background pb-24">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-md shadow-sm no-line tonal-stacking flex justify-between items-center px-6 h-16 w-full">
+<div class="flex items-center gap-3">
+<!-- leading avatar -->
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary flex items-center justify-center font-bold text-sm">
+                DM
+            </div>
+<h1 class="font-['Inter'] font-bold text-xl tracking-tight text-[#00236f]">12 Avril 2024</h1>
+</div>
+<button class="text-[#00236f] hover:bg-blue-50 active:scale-95 transition-transform duration-200 p-2 rounded-full">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+</header>
+<main class="pt-24 px-6 max-w-lg mx-auto flex flex-col gap-8">
+<!-- Summary Card -->
+<section class="bg-surface-container-lowest rounded-xl p-6 relative overflow-hidden">
+<div class="absolute inset-0 pointer-events-none opacity-[0.03]">
+<span class="material-symbols-outlined text-[150px] absolute -right-4 -bottom-8" style="font-variation-settings: 'FILL' 1;">cleaning_services</span>
+</div>
+<div class="relative z-10">
+<h2 class="text-title-md font-semibold text-on-surface mb-4">Résumé de l'intervention</h2>
+<div class="flex items-center justify-between mb-6">
+<div class="flex flex-col">
+<span class="text-label-md text-on-surface-variant uppercase tracking-wider mb-1">Statut Global</span>
+<div class="inline-flex items-center gap-2 bg-secondary/10 text-secondary px-3 py-1 rounded-full w-fit">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-sm font-semibold">Intervention OK</span>
+</div>
+</div>
+<button class="text-primary hover:bg-primary/10 p-2 rounded-full transition-colors flex items-center justify-center" title="Exporter en PDF">
+<span class="material-symbols-outlined text-2xl">picture_as_pdf</span>
+</button>
+</div>
+<div class="bg-surface-container-low rounded-lg p-4">
+<p class="text-body-lg text-on-surface-variant leading-relaxed">
+                        Le nettoyage des bureaux du 3ème étage a été effectué selon le cahier des charges. Attention particulière portée à la salle de réunion B.
+                    </p>
+</div>
+</div>
+</section>
+<!-- Photos -->
+<section>
+<h3 class="text-headline-sm font-bold text-primary mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined">photo_library</span>
+                Photos validées
+            </h3>
+<div class="grid grid-cols-2 gap-4">
+<div class="aspect-square rounded-xl overflow-hidden bg-surface-container-high relative group cursor-pointer">
+<div class="w-full h-full flex items-center justify-center bg-surface-container-high transition-transform duration-300 group-hover:scale-105"><span class="material-symbols-outlined text-on-surface-variant text-4xl">image</span></div>
+<div class="absolute bottom-2 left-2 bg-surface/90 backdrop-blur-sm px-2 py-1 rounded text-xs font-semibold text-on-surface">
+                         Accueil
+                     </div>
+</div>
+<div class="aspect-square rounded-xl overflow-hidden bg-surface-container-high relative group cursor-pointer">
+<div class="w-full h-full flex items-center justify-center bg-surface-container-high transition-transform duration-300 group-hover:scale-105"><span class="material-symbols-outlined text-on-surface-variant text-4xl">image</span></div>
+<div class="absolute bottom-2 left-2 bg-surface/90 backdrop-blur-sm px-2 py-1 rounded text-xs font-semibold text-on-surface">
+                         Salle B
+                     </div>
+</div>
+<div class="aspect-square rounded-xl overflow-hidden bg-surface-container-high relative group cursor-pointer">
+<div class="w-full h-full flex items-center justify-center bg-surface-container-high transition-transform duration-300 group-hover:scale-105"><span class="material-symbols-outlined text-on-surface-variant text-4xl">image</span></div>
+<div class="absolute bottom-2 left-2 bg-surface/90 backdrop-blur-sm px-2 py-1 rounded text-xs font-semibold text-on-surface">
+                         Couloir
+                     </div>
+</div>
+<div class="aspect-square rounded-xl overflow-hidden bg-surface-container-high relative group cursor-pointer flex items-center justify-center">
+<span class="text-on-surface-variant text-sm font-medium">+2 photos</span>
+</div>
+</div>
+</section><!-- Report Problem Section -->
+<section class="mb-4">
+<button class="w-full flex items-center justify-center gap-2 py-4 rounded-xl bg-red-600 text-white font-bold text-sm shadow-md hover:bg-red-700 active:scale-[0.98] transition-all">
+<span class="material-symbols-outlined">report</span>
+        Signaler un problème
+    </button>
+</section>
+<!-- Evaluation -->
+<section class="bg-surface-container-lowest rounded-xl p-6">
+<h3 class="text-headline-sm font-bold text-primary mb-6">Votre évaluation</h3>
+<div class="flex justify-center gap-2 mb-8">
+<button class="text-outline hover:text-secondary transition-colors"><span class="material-symbols-outlined text-4xl" data-icon="star">star</span></button>
+<button class="text-outline hover:text-secondary transition-colors"><span class="material-symbols-outlined text-4xl" data-icon="star">star</span></button>
+<button class="text-outline hover:text-secondary transition-colors"><span class="material-symbols-outlined text-4xl" data-icon="star">star</span></button>
+<button class="text-outline hover:text-secondary transition-colors"><span class="material-symbols-outlined text-4xl" data-icon="star">star</span></button>
+<button class="text-outline hover:text-secondary transition-colors"><span class="material-symbols-outlined text-4xl" data-icon="star">star</span></button>
+</div>
+<div class="flex gap-4 mb-6">
+<button class="flex-1 py-3 rounded-lg bg-surface-container-high text-on-surface-variant font-semibold text-sm border-2 border-transparent focus:border-primary focus:bg-primary-container/10 focus:text-primary transition-all">
+                    Satisfait
+                </button>
+<button class="flex-1 py-3 rounded-lg bg-surface-container-high text-on-surface-variant font-semibold text-sm border-2 border-transparent focus:border-primary focus:bg-primary-container/10 focus:text-primary transition-all">
+                    À améliorer
+                </button>
+</div>
+<div class="mb-6 relative">
+<textarea class="w-full bg-surface-container-low border-none rounded-lg p-4 text-body-lg text-on-surface placeholder:text-outline focus:ring-0 peer resize-none" placeholder="Commentaire optionnel..." rows="3"></textarea>
+<div class="absolute bottom-0 left-0 w-full h-[2px] bg-primary scale-x-0 peer-focus:scale-x-100 transition-transform origin-left"></div>
+</div>
+<button class="w-full py-4 rounded-lg bg-gradient-to-b from-primary to-primary-container text-white font-semibold text-sm shadow-sm hover:opacity-90 active:scale-[0.98] transition-all">
+                Envoyer mon avis
+            </button>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 rounded-t-[24px] bg-white/90 dark:bg-slate-950/90 backdrop-blur-xl border-t border-slate-100/10 shadow-[0_-8px_24px_rgba(24,28,33,0.06)] flex justify-around items-center w-full px-2 pb-safe pt-2 md:hidden">
+<button class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 px-4 py-2 hover:text-[#1a3a8f] dark:hover:text-blue-200 active:scale-90 transition-all duration-300 ease-out group">
+<span class="material-symbols-outlined text-2xl mb-1 group-hover:scale-110 transition-transform" data-icon="home">home</span>
+<span class="font-['Inter'] text-[10px] font-semibold uppercase tracking-widest">Home</span>
+</button>
+<button class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 px-4 py-2 hover:text-[#1a3a8f] dark:hover:text-blue-200 active:scale-90 transition-all duration-300 ease-out group">
+<span class="material-symbols-outlined text-2xl mb-1 group-hover:scale-110 transition-transform" data-icon="photo_library">photo_library</span>
+<span class="font-['Inter'] text-[10px] font-semibold uppercase tracking-widest">Photos</span>
+</button>
+<button class="flex flex-col items-center justify-center bg-blue-50 dark:bg-blue-900/30 text-[#00236f] dark:text-blue-300 rounded-2xl px-4 py-2 hover:text-[#1a3a8f] dark:hover:text-blue-200 active:scale-90 transition-all duration-300 ease-out group">
+<span class="material-symbols-outlined text-2xl mb-1 group-hover:scale-110 transition-transform" data-icon="calendar_today" data-weight="fill" style="font-variation-settings: 'FILL' 1;">calendar_today</span>
+<span class="font-['Inter'] text-[10px] font-semibold uppercase tracking-widest">Planning</span>
+</button>
+<button class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 px-4 py-2 hover:text-[#1a3a8f] dark:hover:text-blue-200 active:scale-90 transition-all duration-300 ease-out group">
+<span class="material-symbols-outlined text-2xl mb-1 group-hover:scale-110 transition-transform" data-icon="chat_bubble">chat_bubble</span>
+<span class="font-['Inter'] text-[10px] font-semibold uppercase tracking-widest">Messages</span>
+</button>
+<button class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 px-4 py-2 hover:text-[#1a3a8f] dark:hover:text-blue-200 active:scale-90 transition-all duration-300 ease-out group">
+<span class="material-symbols-outlined text-2xl mb-1 group-hover:scale-110 transition-transform" data-icon="description">description</span>
+<span class="font-['Inter'] text-[10px] font-semibold uppercase tracking-widest">Reports</span>
+</button>
+</nav>
+</body></html>

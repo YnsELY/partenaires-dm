@@ -1,0 +1,45 @@
+{
+  "expo": {
+    "name": "Les Partenaires DM",
+    "slug": "les-partenaires-dm",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "partenairesdm",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "backgroundColor": "#f7f9ff",
+      "resizeMode": "contain"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.lespartenairesdm.app"
+    },
+    "android": {
+      "package": "com.lespartenairesdm.app",
+      "adaptiveIcon": {
+        "backgroundColor": "#00236f"
+      }
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-font",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "L'app a besoin d'accéder à vos photos pour documenter une intervention.",
+          "cameraPermission": "L'app a besoin d'accéder à votre caméra pour prendre des photos avant/après."
+        }
+      ],
+      "@react-native-community/datetimepicker",
+      "expo-web-browser"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}

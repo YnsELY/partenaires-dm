@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+
+<html lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Dashboard Client - Les Partenaires DM</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-secondary-fixed-variant": "#004b73",
+                      "error": "#ba1a1a",
+                      "secondary": "#006398",
+                      "on-surface": "#181c21",
+                      "on-primary": "#ffffff",
+                      "on-secondary-container": "#004971",
+                      "on-tertiary-fixed": "#351000",
+                      "tertiary-fixed-dim": "#ffb595",
+                      "outline-variant": "#c4c5d3",
+                      "inverse-surface": "#2d3136",
+                      "on-primary-container": "#91a9ff",
+                      "on-tertiary-container": "#fa9261",
+                      "surface-dim": "#d7dae1",
+                      "on-primary-fixed": "#00164e",
+                      "inverse-primary": "#b5c4ff",
+                      "background": "#f7f9ff",
+                      "on-error": "#ffffff",
+                      "secondary-fixed-dim": "#93ccff",
+                      "on-background": "#181c21",
+                      "surface": "#f7f9ff",
+                      "primary-fixed-dim": "#b5c4ff",
+                      "tertiary": "#4e1a00",
+                      "surface-variant": "#dfe2e9",
+                      "on-error-container": "#93000a",
+                      "primary-fixed": "#dce1ff",
+                      "primary-container": "#1a3a8f",
+                      "primary": "#00236f",
+                      "surface-container-lowest": "#ffffff",
+                      "on-tertiary": "#ffffff",
+                      "secondary-fixed": "#cce5ff",
+                      "inverse-on-surface": "#eef1f8",
+                      "surface-container-highest": "#dfe2e9",
+                      "surface-container": "#ebeef5",
+                      "on-primary-fixed-variant": "#224095",
+                      "outline": "#757683",
+                      "surface-container-high": "#e5e8ef",
+                      "secondary-container": "#64bafe",
+                      "on-surface-variant": "#444652",
+                      "on-tertiary-fixed-variant": "#7a3005",
+                      "surface-bright": "#f7f9ff",
+                      "tertiary-container": "#722a00",
+                      "surface-tint": "#3d59af",
+                      "on-secondary-fixed": "#001d31",
+                      "surface-container-low": "#f1f4fb",
+                      "tertiary-fixed": "#ffdbcc",
+                      "on-secondary": "#ffffff",
+                      "error-container": "#ffdad6"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {},
+              "fontFamily": {
+                      "headline": ["Inter"],
+                      "body": ["Inter"],
+                      "label": ["Inter"]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        body {
+          min-height: max(884px, 100dvh);
+        }
+        .pb-safe {
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body pb-24 md:pb-0">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-slate-900/80 backdrop-blur-md shadow-sm dark:shadow-none flex justify-between items-center px-6 h-16">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined text-sm" data-icon="cleaning_services">cleaning_services</span>
+</div>
+<h1 class="text-[#00236f] dark:text-blue-400 font-bold tracking-tighter text-xl hidden md:block">Les Partenaires DM</h1>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-sm font-semibold text-primary hidden md:block">Bonjour, Jean Dupont</span>
+<img alt="User Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCj4gBNkWlU-6cOF7scF-0QHn9G4QvbOHkWBRU7xRTtABftmWlWX2JDP5trWOIdmGLRON7PatCPTZinuhL79qlcv9QkcWPeZQaPXSlKBbK4Fl8u6I56inykB4hmF0HnjP0TevCPOHcZ8E52fNG-tNoXZPAGMQLFT2UBsLoSXG0566lQjHv0-vnzcK38XLDN1XefsNPFb7uZeW8wRfgi1FrMYCSjmXRY7OMSWsdRURmHoz3sCgZUzd6MVFph-QBoaClUGyIvfcOYrA"/>
+<button class="hover:bg-blue-50 dark:hover:bg-blue-900/20 p-2 rounded-full active:scale-95 transition-transform duration-200">
+<span class="material-symbols-outlined text-[#00236f] dark:text-blue-400" data-icon="notifications">notifications</span>
+</button>
+</div>
+</header>
+<main class="pt-24 px-6 max-w-7xl mx-auto md:flex md:gap-8">
+<!-- Sidebar Navigation for Web -->
+<aside class="hidden md:flex flex-col w-64 shrink-0 bg-surface-container-lowest rounded-xl p-4 shadow-[0_8px_24px_rgba(24,28,33,0.02)] h-[calc(100vh-8rem)] sticky top-24">
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg bg-primary-container text-on-primary font-bold transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="home" style="font-variation-settings: 'FILL' 1;">home</span>
+                    Home
+                </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="photo_library">photo_library</span>
+                    Photos
+                </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span>
+                    Planning
+                </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+                    Messages
+                </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+                    Reports
+                </a>
+</nav>
+</aside>
+<!-- Main Content Area -->
+<div class="flex-1 space-y-12">
+<div class="md:hidden mb-8">
+<h2 class="text-[2.75rem] font-bold text-on-surface leading-tight">Bonjour,<br/><span class="text-primary">Jean Dupont</span></h2>
+</div>
+<!-- Chantiers en cours -->
+<section>
+<div class="flex justify-between items-end mb-6">
+<h3 class="text-[1.5rem] font-bold text-primary">Chantiers en cours</h3>
+<a class="text-sm font-semibold text-secondary hover:underline" href="#">Voir tout</a>
+</div>
+<div class="flex overflow-x-auto pb-6 -mx-6 px-6 gap-6 hide-scrollbar md:grid md:grid-cols-2 lg:grid-cols-3 md:overflow-visible md:px-0 md:mx-0">
+<!-- Card 1 -->
+<div class="min-w-[280px] bg-surface-container-lowest rounded-xl p-5 shadow-[0_8px_24px_rgba(24,28,33,0.02)] flex flex-col gap-4 border border-outline-variant/15">
+<div class="flex justify-between items-start">
+<span class="bg-primary/10 text-primary text-[0.75rem] font-semibold uppercase tracking-wider px-3 py-1 rounded-full">En cours</span>
+<div class="flex text-secondary-container">
+<span class="material-symbols-outlined text-sm" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm text-outline-variant" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+<div>
+<h4 class="text-[1.125rem] font-semibold text-on-surface">Tour Alpha - Étages 12-15</h4>
+<p class="text-[1rem] text-on-surface-variant mt-1">Nettoyage complet post-travaux</p>
+</div>
+<div class="mt-auto pt-4 border-t border-surface-container-high/50 flex justify-between items-center text-sm">
+<span class="text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[16px]" data-icon="schedule">schedule</span> 65% terminé</span>
+<span class="font-semibold text-primary">Aujourd'hui</span>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="min-w-[280px] bg-surface-container-lowest rounded-xl p-5 shadow-[0_8px_24px_rgba(24,28,33,0.02)] flex flex-col gap-4 border border-outline-variant/15">
+<div class="flex justify-between items-start">
+<span class="bg-tertiary-container/10 text-tertiary-container text-[0.75rem] font-semibold uppercase tracking-wider px-3 py-1 rounded-full">Intervention prévue</span>
+<div class="flex text-secondary-container">
+<span class="material-symbols-outlined text-sm" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+<div>
+<h4 class="text-[1.125rem] font-semibold text-on-surface">Bureaux Innova Tech</h4>
+<p class="text-[1rem] text-on-surface-variant mt-1">Entretien hebdomadaire vitrerie</p>
+</div>
+<div class="mt-auto pt-4 border-t border-surface-container-high/50 flex justify-between items-center text-sm">
+<span class="text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[16px]" data-icon="event">event</span> Planifié</span>
+<span class="font-semibold text-on-surface">Demain, 08:00</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Dernière intervention -->
+<section>
+<h3 class="text-[1.5rem] font-bold text-primary mb-6">Dernière intervention</h3>
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_8px_24px_rgba(24,28,33,0.02)] border border-outline-variant/15 flex flex-col md:flex-row">
+<div class="h-48 md:h-auto md:w-1/3 relative">
+<div class="w-full h-full bg-surface-container flex items-center justify-center"><span class="material-symbols-outlined text-outline text-5xl" data-icon="image">image</span></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-4">
+<span class="bg-surface/90 text-on-surface text-[0.75rem] font-semibold px-2 py-1 rounded flex items-center gap-1 backdrop-blur-sm">
+<span class="material-symbols-outlined text-[14px]" data-icon="photo_camera">photo_camera</span> 3 photos
+                            </span>
+</div>
+</div>
+<div class="p-6 md:w-2/3 flex flex-col justify-center">
+<div class="flex justify-between items-start mb-2">
+<span class="text-sm font-semibold text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]" data-icon="calendar_today">calendar_today</span>
+                                12 Oct 2023
+                            </span>
+<span class="bg-[#1b5e20]/10 text-[#1b5e20] text-[0.75rem] font-semibold uppercase tracking-wider px-3 py-1 rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="verified">verified</span> Conformité 100%
+                            </span>
+</div>
+<h4 class="text-[1.125rem] font-semibold text-on-surface mb-2">Centre Médical Pasteur - Hall Principal</h4>
+<p class="text-[1rem] text-on-surface-variant mb-6 leading-relaxed">Prestation de nettoyage profond des sols marbrés et désinfection des zones de contact élevé (poignées, comptoirs d'accueil).</p>
+<div class="flex gap-4 mt-auto">
+<button class="bg-primary text-on-primary text-[0.75rem] font-semibold uppercase tracking-wider px-6 py-3 rounded-lg flex-1 md:flex-none hover:bg-primary-container transition-colors">
+                                Voir le rapport
+                            </button>
+<button class="bg-transparent border border-outline-variant/15 text-primary text-[0.75rem] font-semibold uppercase tracking-wider px-6 py-3 rounded-lg flex-1 md:flex-none hover:bg-surface-container-low transition-colors">
+                                Signaler un problème
+                            </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Historique récent (7 jours) -->
+<section>
+<h3 class="text-[1.5rem] font-bold text-primary mb-6">Historique récent (7 jours)</h3>
+<div class="bg-surface-container-lowest rounded-xl shadow-[0_8px_24px_rgba(24,28,33,0.02)] border border-outline-variant/15 overflow-hidden">
+<ul class="divide-y divide-surface-container-high/50">
+<li class="p-4 flex items-center justify-between hover:bg-surface-container-low/30 transition-colors">
+<div class="flex flex-col">
+<span class="text-[0.75rem] font-semibold text-secondary uppercase tracking-wider">11 Oct 2023</span>
+<span class="text-[1rem] font-semibold text-on-surface">Résidence Les Lilas</span>
+</div>
+<span class="bg-[#1b5e20]/10 text-[#1b5e20] text-[0.7rem] font-bold uppercase tracking-widest px-2 py-1 rounded">Terminé</span>
+</li>
+<li class="p-4 flex items-center justify-between hover:bg-surface-container-low/30 transition-colors">
+<div class="flex flex-col">
+<span class="text-[0.75rem] font-semibold text-secondary uppercase tracking-wider">10 Oct 2023</span>
+<span class="text-[1rem] font-semibold text-on-surface">Bureaux Tech Hub</span>
+</div>
+<span class="bg-[#1b5e20]/10 text-[#1b5e20] text-[0.7rem] font-bold uppercase tracking-widest px-2 py-1 rounded">OK</span>
+</li>
+<li class="p-4 flex items-center justify-between hover:bg-surface-container-low/30 transition-colors">
+<div class="flex flex-col">
+<span class="text-[0.75rem] font-semibold text-secondary uppercase tracking-wider">08 Oct 2023</span>
+<span class="text-[1rem] font-semibold text-on-surface">Gymnasium Municipal</span>
+</div>
+<span class="bg-[#1b5e20]/10 text-[#1b5e20] text-[0.7rem] font-bold uppercase tracking-widest px-2 py-1 rounded">Terminé</span>
+</li>
+<li class="p-4 flex items-center justify-between hover:bg-surface-container-low/30 transition-colors">
+<div class="flex flex-col">
+<span class="text-[0.75rem] font-semibold text-secondary uppercase tracking-wider">07 Oct 2023</span>
+<span class="text-[1rem] font-semibold text-on-surface">Showroom Auto-Prestige</span>
+</div>
+<span class="bg-[#1b5e20]/10 text-[#1b5e20] text-[0.7rem] font-bold uppercase tracking-widest px-2 py-1 rounded">OK</span>
+</li>
+</ul>
+<a class="block w-full text-center py-4 text-sm font-bold text-primary hover:bg-surface-container-low border-t border-surface-container-high/50 transition-colors" href="#">
+                        Voir tout l'historique
+                    </a>
+</div>
+</section>
+<div class="h-8"></div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 rounded-t-[24px] bg-white/90 dark:bg-slate-950/90 backdrop-blur-xl border-t border-slate-100/10 shadow-[0_-8px_24px_rgba(24,28,33,0.06)] flex justify-around items-center px-2 pb-safe pt-2">
+<a class="flex flex-col items-center justify-center bg-blue-50 dark:bg-blue-900/30 text-[#00236f] dark:text-blue-300 rounded-2xl px-4 py-2 transition-all duration-300 ease-out font-['Inter'] text-[10px] font-semibold uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="home" style="font-variation-settings: 'FILL' 1;">home</span>
+            Home
+        </a>
+<a class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 px-4 py-2 hover:text-[#1a3a8f] dark:hover:text-blue-200 active:scale-90 transition-all duration-300 ease-out font-['Inter'] text-[10px] font-semibold uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="photo_library">photo_library</span>
+            Photos
+        </a>
+<a class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 px-4 py-2 hover:text-[#1a3a8f] dark:hover:text-blue-200 active:scale-90 transition-all duration-300 ease-out font-['Inter'] text-[10px] font-semibold uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="calendar_today">calendar_today</span>
+            Planning
+        </a>
+<a class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 px-4 py-2 hover:text-[#1a3a8f] dark:hover:text-blue-200 active:scale-90 transition-all duration-300 ease-out font-['Inter'] text-[10px] font-semibold uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="chat_bubble">chat_bubble</span>
+            Messages
+        </a>
+<a class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 px-4 py-2 hover:text-[#1a3a8f] dark:hover:text-blue-200 active:scale-90 transition-all duration-300 ease-out font-['Inter'] text-[10px] font-semibold uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="description">description</span>
+            Reports
+        </a>
+</nav>
+</body></html>

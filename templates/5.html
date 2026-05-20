@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Mes rapports - Les Partenaires DM</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed-variant": "#004b73",
+                        "error": "#ba1a1a",
+                        "secondary": "#006398",
+                        "on-surface": "#181c21",
+                        "on-primary": "#ffffff",
+                        "on-secondary-container": "#004971",
+                        "on-tertiary-fixed": "#351000",
+                        "tertiary-fixed-dim": "#ffb595",
+                        "outline-variant": "#c4c5d3",
+                        "inverse-surface": "#2d3136",
+                        "on-primary-container": "#91a9ff",
+                        "on-tertiary-container": "#fa9261",
+                        "surface-dim": "#d7dae1",
+                        "on-primary-fixed": "#00164e",
+                        "inverse-primary": "#b5c4ff",
+                        "background": "#f7f9ff",
+                        "on-error": "#ffffff",
+                        "secondary-fixed-dim": "#93ccff",
+                        "on-background": "#181c21",
+                        "surface": "#f7f9ff",
+                        "primary-fixed-dim": "#b5c4ff",
+                        "tertiary": "#4e1a00",
+                        "surface-variant": "#dfe2e9",
+                        "on-error-container": "#93000a",
+                        "primary-fixed": "#dce1ff",
+                        "primary-container": "#1a3a8f",
+                        "primary": "#00236f",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed": "#cce5ff",
+                        "inverse-on-surface": "#eef1f8",
+                        "surface-container-highest": "#dfe2e9",
+                        "surface-container": "#ebeef5",
+                        "on-primary-fixed-variant": "#224095",
+                        "outline": "#757683",
+                        "surface-container-high": "#e5e8ef",
+                        "secondary-container": "#64bafe",
+                        "on-surface-variant": "#444652",
+                        "on-tertiary-fixed-variant": "#7a3005",
+                        "surface-bright": "#f7f9ff",
+                        "tertiary-container": "#722a00",
+                        "surface-tint": "#3d59af",
+                        "on-secondary-fixed": "#001d31",
+                        "surface-container-low": "#f1f4fb",
+                        "tertiary-fixed": "#ffdbcc",
+                        "on-secondary": "#ffffff",
+                        "error-container": "#ffdad6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {},
+                    "fontFamily": {
+                        "headline": ["Inter"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface antialiased min-h-screen flex flex-col pt-16 pb-24">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-slate-900/80 backdrop-blur-md no-line tonal-stacking shadow-sm dark:shadow-none flex justify-between items-center px-6 h-16">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-on-primary font-bold overflow-hidden">
+<img alt="User avatar" class="w-full h-full object-cover" data-alt="close up professional headshot of a person looking forward in a well lit studio" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBP4NnP2DX2DHX3gpTAeaRHCz0ajhronLAEDnePv1H86LX3bQQL1IPbTFV3QhvBAP9eNX2X-8dCd3PmQKJYotBjpiqAxPGTHLTWSAaL1PvpsLz2UkTUd_qOnMdyij7BTwt-wkbecnGMEh16-_eXBCr9yaLHXpm1Hmp04ODveNx0L4FCo1oP9ohGqM0ttTG1_C-p4gRKc_9-Ceskmy9D2yHUsvYTwMiqN1rW1-G4SU3muzyR3I0jhTgA-RHc0Tg2saRMzrED3lNXtkc"/>
+</div>
+<h1 class="font-['Inter'] font-bold text-xl tracking-tight text-[#00236f] dark:text-blue-400">Les Partenaires DM</h1>
+</div>
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-[#00236f] dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 active:scale-95 transition-transform duration-200">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">notifications</span>
+</button>
+</header>
+<!-- Main Content -->
+<main class="flex-grow px-6 py-8 md:px-12 lg:px-24">
+<!-- Header Section -->
+<div class="mb-10">
+<h2 class="text-[1.5rem] font-bold text-primary mb-2">Mes rapports</h2>
+<p class="text-[1rem] text-on-surface-variant font-normal leading-relaxed">Consultez et téléchargez les rapports d'intervention pour vos sites.</p>
+</div>
+<!-- Filter/Search Bar (Optional enhancement for a real app, keeping it simple here) -->
+<div class="mb-8 flex gap-4">
+<div class="relative flex-grow">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-xl pl-12 pr-4 py-4 text-on-surface placeholder-on-surface-variant focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none" placeholder="Rechercher un rapport..." type="text"/>
+</div>
+<button class="bg-surface-container-low text-primary px-6 rounded-xl font-semibold text-[0.75rem] uppercase tracking-wider flex items-center gap-2 hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">filter_list</span>
+                Filtres
+            </button>
+</div>
+<!-- Reports List (Bento-ish/Card Layout) -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Report Card 1 -->
+<div class="bg-surface-container-lowest rounded-[24px] p-6 shadow-[0_8px_24px_rgba(24,28,33,0.06)] flex flex-col justify-between border border-outline-variant/15 relative overflow-hidden group hover:-translate-y-1 transition-transform duration-300">
+<!-- Decorative top gradient -->
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-primary-container opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div>
+<div class="flex justify-between items-start mb-4">
+<div class="w-12 h-12 rounded-xl bg-error/10 flex items-center justify-center text-error">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">picture_as_pdf</span>
+</div>
+<span class="text-[0.75rem] font-semibold text-on-surface-variant bg-surface-container px-3 py-1 rounded-full">12 Oct 2023</span>
+</div>
+<h3 class="text-[1.125rem] font-semibold text-on-surface mb-1">Rapport Mensuel - Siège Social</h3>
+<p class="text-[0.875rem] text-on-surface-variant mb-6">Tour Lumière, Paris</p>
+</div>
+<button class="w-full bg-surface text-primary border border-outline-variant/15 py-3 rounded-lg font-semibold text-[0.75rem] uppercase tracking-wider flex justify-center items-center gap-2 hover:bg-primary/5 transition-colors">
+<span class="material-symbols-outlined text-[1.25rem]">download</span>
+                    Télécharger
+                </button>
+</div>
+<!-- Report Card 2 -->
+<div class="bg-surface-container-lowest rounded-[24px] p-6 shadow-[0_8px_24px_rgba(24,28,33,0.06)] flex flex-col justify-between border border-outline-variant/15 relative overflow-hidden group hover:-translate-y-1 transition-transform duration-300">
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-primary-container opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div>
+<div class="flex justify-between items-start mb-4">
+<div class="w-12 h-12 rounded-xl bg-error/10 flex items-center justify-center text-error">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">picture_as_pdf</span>
+</div>
+<span class="text-[0.75rem] font-semibold text-on-surface-variant bg-surface-container px-3 py-1 rounded-full">05 Oct 2023</span>
+</div>
+<h3 class="text-[1.125rem] font-semibold text-on-surface mb-1">Intervention Extra - Nettoyage Vitres</h3>
+<p class="text-[0.875rem] text-on-surface-variant mb-6">Campus Innovation, Lyon</p>
+</div>
+<button class="w-full bg-surface text-primary border border-outline-variant/15 py-3 rounded-lg font-semibold text-[0.75rem] uppercase tracking-wider flex justify-center items-center gap-2 hover:bg-primary/5 transition-colors">
+<span class="material-symbols-outlined text-[1.25rem]">download</span>
+                    Télécharger
+                </button>
+</div>
+<!-- Report Card 3 -->
+<div class="bg-surface-container-lowest rounded-[24px] p-6 shadow-[0_8px_24px_rgba(24,28,33,0.06)] flex flex-col justify-between border border-outline-variant/15 relative overflow-hidden group hover:-translate-y-1 transition-transform duration-300">
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-primary-container opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div>
+<div class="flex justify-between items-start mb-4">
+<div class="w-12 h-12 rounded-xl bg-error/10 flex items-center justify-center text-error">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">picture_as_pdf</span>
+</div>
+<span class="text-[0.75rem] font-semibold text-on-surface-variant bg-surface-container px-3 py-1 rounded-full">01 Oct 2023</span>
+</div>
+<h3 class="text-[1.125rem] font-semibold text-on-surface mb-1">Audit Qualité Trimestriel</h3>
+<p class="text-[0.875rem] text-on-surface-variant mb-6">Siège Social - Tour Lumière, Paris</p>
+</div>
+<button class="w-full bg-surface text-primary border border-outline-variant/15 py-3 rounded-lg font-semibold text-[0.75rem] uppercase tracking-wider flex justify-center items-center gap-2 hover:bg-primary/5 transition-colors">
+<span class="material-symbols-outlined text-[1.25rem]">download</span>
+                    Télécharger
+                </button>
+</div>
+<!-- Report Card 4 -->
+<div class="bg-surface-container-lowest rounded-[24px] p-6 shadow-[0_8px_24px_rgba(24,28,33,0.06)] flex flex-col justify-between border border-outline-variant/15 relative overflow-hidden group hover:-translate-y-1 transition-transform duration-300">
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-primary-container opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div>
+<div class="flex justify-between items-start mb-4">
+<div class="w-12 h-12 rounded-xl bg-error/10 flex items-center justify-center text-error">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">picture_as_pdf</span>
+</div>
+<span class="text-[0.75rem] font-semibold text-on-surface-variant bg-surface-container px-3 py-1 rounded-full">12 Sep 2023</span>
+</div>
+<h3 class="text-[1.125rem] font-semibold text-on-surface mb-1">Rapport Mensuel - Campus</h3>
+<p class="text-[0.875rem] text-on-surface-variant mb-6">Campus Innovation, Lyon</p>
+</div>
+<button class="w-full bg-surface text-primary border border-outline-variant/15 py-3 rounded-lg font-semibold text-[0.75rem] uppercase tracking-wider flex justify-center items-center gap-2 hover:bg-primary/5 transition-colors">
+<span class="material-symbols-outlined text-[1.25rem]">download</span>
+                    Télécharger
+                </button>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 rounded-t-[24px] border-t border-slate-100/10 shadow-[0_-8px_24px_rgba(24,28,33,0.06)] bg-white/90 dark:bg-slate-950/90 backdrop-blur-xl flex justify-around items-center px-2 pb-safe pt-2">
+<!-- Inactive: Home -->
+<a class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 px-4 py-2 hover:text-[#1a3a8f] dark:hover:text-blue-200 active:scale-90 transition-all duration-300 ease-out" href="#">
+<span class="material-symbols-outlined mb-1">home</span>
+<span class="font-['Inter'] text-[10px] font-semibold uppercase tracking-widest">Home</span>
+</a>
+<!-- Inactive: Photos -->
+<a class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 px-4 py-2 hover:text-[#1a3a8f] dark:hover:text-blue-200 active:scale-90 transition-all duration-300 ease-out" href="#">
+<span class="material-symbols-outlined mb-1">photo_library</span>
+<span class="font-['Inter'] text-[10px] font-semibold uppercase tracking-widest">Photos</span>
+</a>
+<!-- Inactive: Planning -->
+<a class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 px-4 py-2 hover:text-[#1a3a8f] dark:hover:text-blue-200 active:scale-90 transition-all duration-300 ease-out" href="#">
+<span class="material-symbols-outlined mb-1">calendar_today</span>
+<span class="font-['Inter'] text-[10px] font-semibold uppercase tracking-widest">Planning</span>
+</a>
+<!-- Inactive: Messages -->
+<a class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 px-4 py-2 hover:text-[#1a3a8f] dark:hover:text-blue-200 active:scale-90 transition-all duration-300 ease-out" href="#">
+<span class="material-symbols-outlined mb-1">chat_bubble</span>
+<span class="font-['Inter'] text-[10px] font-semibold uppercase tracking-widest">Messages</span>
+</a>
+<!-- Active: Reports -->
+<a class="flex flex-col items-center justify-center bg-blue-50 dark:bg-blue-900/30 text-[#00236f] dark:text-blue-300 rounded-2xl px-4 py-2 active:scale-90 transition-all duration-300 ease-out" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">description</span>
+<span class="font-['Inter'] text-[10px] font-semibold uppercase tracking-widest">Reports</span>
+</a>
+</nav>
+</body></html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Chantier Gare du Nord - Les Partenaires DM</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#1a3a8f",
+                        "on-primary": "#ffffff",
+                        "secondary": "#006398",
+                        "background": "#f7f9ff",
+                        "surface": "#f7f9ff",
+                        "on-surface": "#181c21",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-low": "#f5f8ff",
+                        "surface-container": "#ebeef5",
+                        "surface-container-high": "#e5e8ef",
+                        "on-surface-variant": "#444652",
+                        "outline": "#757683",
+                        "outline-variant": "#c4c5d3",
+                        "primary-container": "#dce1ff",
+                        "on-primary-container": "#1a3a8f",
+                        "secondary-container": "#64bafe",
+                        "on-secondary-container": "#004971",
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "3xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Inter"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; min-height: max(884px, 100dvh); }
+        .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+    </style>
+</head>
+<body class="bg-surface text-on-surface pb-24 md:pb-0 min-h-screen">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-md shadow-sm flex justify-between items-center px-6 h-16">
+<div class="flex items-center gap-4">
+<button class="text-primary hover:bg-primary/10 active:scale-95 transition-transform duration-200 p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h1 class="text-primary font-bold text-xl tracking-tight">Fiche Chantier</h1>
+</div>
+<button class="text-primary hover:bg-primary/10 active:scale-95 transition-transform duration-200 p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-20 px-4 max-w-4xl mx-auto flex flex-col gap-6">
+<!-- Hero Site Photo -->
+<div class="w-full h-56 bg-slate-200 rounded-3xl overflow-hidden relative group cursor-pointer shadow-sm">
+<img alt="Gare du Nord" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3BFHYg6rj2dCvTF4aIs3bTM8WPeca4ypeHvTpk78as34gH1cI0kzudB53RUcJk-xPoLMp2Qtk002unVRtdeyb9uAyTrmFWj4J4Qy37Kg01u1OXlPme9Dbz4yj968noN9_b9OoerPtFJOU9IoAIkdrKA7i3a5DGssxkHyZJibqEvSFw6lU6RTacgO-6iXIz8tu2I2oZ9XddoyphGkSU6baJ47rmTvmA2p2cPVP74kFEzr60WikIE2-DP6r5HLG2Ey6EO1xRTT6gxA"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex flex-col justify-end p-6">
+<h2 class="text-white font-bold text-2xl">Chantier Gare du Nord</h2>
+</div>
+<div class="absolute top-4 right-4 bg-white/20 backdrop-blur-md p-2 rounded-full text-white">
+<span class="material-symbols-outlined text-sm">photo_camera</span>
+</div>
+</div>
+<!-- Information Section -->
+<section class="bg-surface-container-lowest rounded-3xl p-6 shadow-sm">
+<div class="grid grid-cols-1 gap-6">
+<!-- Structured Info Rows -->
+<div class="flex flex-col gap-5">
+<div class="flex items-start gap-4">
+<div class="w-10 h-10 shrink-0 bg-surface-container-low rounded-xl text-primary flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">location_on</span>
+</div>
+<div class="flex-1">
+<p class="text-[0.65rem] font-bold text-primary/60 uppercase tracking-widest mb-0.5">Adresse</p>
+<p class="text-[0.9375rem] text-on-surface font-semibold leading-tight">18 Rue de Dunkerque, 75010 Paris</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<div class="w-10 h-10 shrink-0 bg-surface-container-low rounded-xl text-primary flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">business</span>
+</div>
+<div class="flex-1">
+<p class="text-[0.65rem] font-bold text-primary/60 uppercase tracking-widest mb-0.5">Client</p>
+<p class="text-[0.9375rem] text-on-surface font-semibold leading-tight">SNCF Gares &amp; Connexions</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<div class="w-10 h-10 shrink-0 bg-surface-container-low rounded-xl text-primary flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">person</span>
+</div>
+<div class="flex-1">
+<p class="text-[0.65rem] font-bold text-primary/60 uppercase tracking-widest mb-0.5">Agent responsable</p>
+<p class="text-[0.9375rem] text-on-surface font-semibold leading-tight">Marc Lefebvre</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<div class="w-10 h-10 shrink-0 bg-surface-container-low rounded-xl text-primary flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">cleaning_services</span>
+</div>
+<div class="flex-1">
+<p class="text-[0.65rem] font-bold text-primary/60 uppercase tracking-widest mb-0.5">Type de prestation</p>
+<p class="text-[0.9375rem] text-on-surface font-semibold leading-tight">Nettoyage complet espaces publics</p>
+</div>
+</div>
+</div>
+<!-- Description Block -->
+<div class="bg-surface-container-low rounded-2xl p-5 border border-primary/5">
+<p class="text-[0.65rem] font-bold text-primary/60 uppercase tracking-widest mb-2">Description du site</p>
+<p class="text-[0.875rem] text-on-surface-variant leading-relaxed">
+                        Zone d'intervention prioritaire incluant le hall principal, les quais 1 à 10, et les sanitaires publics du niveau -1. Attention particulière requise pour les surfaces vitrées de l'entrée principale selon le protocole de nettoyage profond.
+                    </p>
+</div>
+</div>
+</section>
+<!-- Interventions Récentes -->
+<section class="flex flex-col gap-4 mb-8">
+<h2 class="text-primary font-bold text-lg tracking-tight px-2">Interventions récentes</h2>
+<div class="flex flex-col gap-3">
+<!-- Intervention Item 1 -->
+<div class="bg-surface-container-lowest rounded-2xl p-4 flex items-center justify-between hover:bg-surface-container-high transition-colors duration-200 cursor-pointer shadow-sm">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 bg-surface-container-low rounded-full flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-xl">calendar_today</span>
+</div>
+<div>
+<p class="text-[1rem] font-semibold text-on-surface">15 Octobre 2023</p>
+<p class="text-[0.8125rem] text-on-surface-variant">Intervention matinale - Équipe A</p>
+</div>
+</div>
+<div class="px-3 py-1 bg-green-100 rounded-full flex items-center gap-1.5">
+<span class="material-symbols-outlined text-green-700 text-xs font-bold">check_circle</span>
+<span class="text-[0.65rem] font-bold text-green-700 uppercase tracking-wider">OK</span>
+</div>
+</div>
+<!-- Intervention Item 2 -->
+<div class="bg-surface-container-lowest rounded-2xl p-4 flex items-center justify-between hover:bg-surface-container-high transition-colors duration-200 cursor-pointer shadow-sm">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 bg-surface-container-low rounded-full flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-xl">calendar_today</span>
+</div>
+<div>
+<p class="text-[1rem] font-semibold text-on-surface">14 Octobre 2023</p>
+<p class="text-[0.8125rem] text-on-surface-variant">Intervention soir - Équipe C</p>
+</div>
+</div>
+<div class="px-3 py-1 bg-orange-100 rounded-full flex items-center gap-1.5">
+<span class="material-symbols-outlined text-orange-800 text-xs font-bold">warning</span>
+<span class="text-[0.65rem] font-bold text-orange-800 uppercase tracking-wider">À AMÉLIORER</span>
+</div>
+</div>
+<!-- Intervention Item 3 -->
+<div class="bg-surface-container-lowest rounded-2xl p-4 flex items-center justify-between hover:bg-surface-container-high transition-colors duration-200 cursor-pointer shadow-sm">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 bg-surface-container-low rounded-full flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-xl">calendar_today</span>
+</div>
+<div>
+<p class="text-[1rem] font-semibold text-on-surface">14 Octobre 2023</p>
+<p class="text-[0.8125rem] text-on-surface-variant">Intervention matinale - Équipe B</p>
+</div>
+</div>
+<div class="px-3 py-1 bg-green-100 rounded-full flex items-center gap-1.5">
+<span class="material-symbols-outlined text-green-700 text-xs font-bold">check_circle</span>
+<span class="text-[0.65rem] font-bold text-green-700 uppercase tracking-wider">OK</span>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 rounded-t-3xl bg-white/95 backdrop-blur-xl border-t border-slate-100 shadow-[0_-8px_24px_rgba(24,28,33,0.06)] flex justify-around items-center px-2 pb-safe pt-2 md:hidden">
+<button class="flex flex-col items-center justify-center bg-primary-container text-primary rounded-2xl px-4 py-2 active:scale-90 transition-all duration-300">
+<span class="material-symbols-outlined">home</span>
+<span class="font-['Inter'] text-[10px] font-bold uppercase tracking-widest mt-1">Home</span>
+</button>
+<button class="flex flex-col items-center justify-center text-outline px-4 py-2 hover:text-primary active:scale-90 transition-all duration-300">
+<span class="material-symbols-outlined">photo_library</span>
+<span class="font-['Inter'] text-[10px] font-bold uppercase tracking-widest mt-1">Photos</span>
+</button>
+<button class="flex flex-col items-center justify-center text-outline px-4 py-2 hover:text-primary active:scale-90 transition-all duration-300">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-['Inter'] text-[10px] font-bold uppercase tracking-widest mt-1">Planning</span>
+</button>
+<button class="flex flex-col items-center justify-center text-outline px-4 py-2 hover:text-primary active:scale-90 transition-all duration-300">
+<span class="material-symbols-outlined">chat_bubble</span>
+<span class="font-['Inter'] text-[10px] font-bold uppercase tracking-widest mt-1">Messages</span>
+</button>
+<button class="flex flex-col items-center justify-center text-outline px-4 py-2 hover:text-primary active:scale-90 transition-all duration-300">
+<span class="material-symbols-outlined">description</span>
+<span class="font-['Inter'] text-[10px] font-bold uppercase tracking-widest mt-1">Reports</span>
+</button>
+</nav>
+<!-- SideNav for Desktop -->
+<aside class="hidden md:flex fixed left-0 top-16 bottom-0 w-64 bg-surface-container-lowest border-r border-slate-100 flex-col py-6 px-4 z-40">
+<nav class="flex flex-col gap-2">
+<button class="flex items-center gap-4 bg-primary-container text-primary rounded-xl px-4 py-3">
+<span class="material-symbols-outlined">home</span>
+<span class="font-semibold">Home</span>
+</button>
+<button class="flex items-center gap-4 text-on-surface-variant hover:bg-surface-container-high rounded-xl px-4 py-3 transition-colors duration-200">
+<span class="material-symbols-outlined">photo_library</span>
+<span class="font-semibold">Photos</span>
+</button>
+<button class="flex items-center gap-4 text-on-surface-variant hover:bg-surface-container-high rounded-xl px-4 py-3 transition-colors duration-200">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-semibold">Planning</span>
+</button>
+<button class="flex items-center gap-4 text-on-surface-variant hover:bg-surface-container-high rounded-xl px-4 py-3 transition-colors duration-200">
+<span class="material-symbols-outlined">chat_bubble</span>
+<span class="font-semibold">Messages</span>
+</button>
+<button class="flex items-center gap-4 text-on-surface-variant hover:bg-surface-container-high rounded-xl px-4 py-3 transition-colors duration-200">
+<span class="material-symbols-outlined">description</span>
+<span class="font-semibold">Reports</span>
+</button>
+</nav>
+</aside>
+</body></html>

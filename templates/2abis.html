@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-variant": "#dfe2e9",
+                    "surface-container-highest": "#dfe2e9",
+                    "primary-fixed": "#dce1ff",
+                    "surface-dim": "#d7dae1",
+                    "inverse-on-surface": "#eef1f8",
+                    "on-primary-fixed-variant": "#224095",
+                    "on-tertiary-fixed-variant": "#7a3005",
+                    "on-tertiary-fixed": "#351000",
+                    "on-secondary-fixed": "#001d31",
+                    "inverse-primary": "#b5c4ff",
+                    "on-secondary": "#ffffff",
+                    "error": "#ba1a1a",
+                    "tertiary": "#4e1a00",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary-fixed": "#ffdbcc",
+                    "surface-container-low": "#f1f4fb",
+                    "surface": "#f7f9ff",
+                    "outline": "#757683",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary-container": "#004971",
+                    "background": "#f7f9ff",
+                    "surface-tint": "#3d59af",
+                    "on-error-container": "#93000a",
+                    "tertiary-fixed-dim": "#ffb595",
+                    "on-primary-fixed": "#00164e",
+                    "on-surface": "#181c21",
+                    "primary-fixed-dim": "#b5c4ff",
+                    "on-tertiary-container": "#fa9261",
+                    "on-primary": "#ffffff",
+                    "secondary-container": "#64bafe",
+                    "surface-container": "#ebeef5",
+                    "inverse-surface": "#2d3136",
+                    "error-container": "#ffdad6",
+                    "surface-container-high": "#e5e8ef",
+                    "secondary-fixed-dim": "#93ccff",
+                    "on-surface-variant": "#444652",
+                    "surface-bright": "#f7f9ff",
+                    "secondary-fixed": "#cce5ff",
+                    "primary-container": "#1a3a8f",
+                    "on-secondary-fixed-variant": "#004b73",
+                    "outline-variant": "#c4c5d3",
+                    "on-background": "#181c21",
+                    "primary": "#00236f",
+                    "on-primary-container": "#91a9ff",
+                    "on-error": "#ffffff",
+                    "tertiary-container": "#722a00",
+                    "secondary": "#006398"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.5rem",
+                    "lg": "0.75rem",
+                    "xl": "1rem",
+                    "2xl": "1.5rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Inter", "sans-serif"],
+                    "display": ["Inter", "sans-serif"],
+                    "body": ["Inter", "sans-serif"],
+                    "label": ["Inter", "sans-serif"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            min-height: 100dvh;
+        }
+        /* Custom scrollbar for better B2B feel */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f7f9ff;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #dce1ff;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface pb-40">
+<!-- TopAppBar -->
+<header class="bg-white/90 backdrop-blur-xl sticky top-0 z-50 flex justify-between items-center w-full px-5 h-16 border-b border-slate-100">
+<div class="flex items-center gap-3">
+<button class="text-on-surface-variant hover:bg-surface-container-low p-2 rounded-full transition-colors active:scale-90">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+</button>
+<h1 class="font-headline font-bold text-lg tracking-tight text-primary">Validation Intervention</h1>
+</div>
+<div class="flex items-center">
+<div class="w-9 h-9 rounded-full bg-primary-container ring-2 ring-white overflow-hidden">
+<img alt="Admin Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4PQq5tWq5IIIbSjXnBoh6IM8ax_0BTnnFvt4ZnYbBRSUzHqdcU2dx4mPGbFHiNm8lIv7L61NbQPVlpF387hlG94ub3-Q2Dz2sLRo1hsMbmMgIttXVqsxQ7j1CTZdJKzUNk1wH-KAbwknN7rcUQJA7XIrdaVqmEN5D4pAYGe_fZd7H0Zs9NmlMHFqUkEHpKJ9JiIsRvmKC4JWCu1v1gfrqr3oBWBqLXPnwPNaAdUEVUse5wCK3ZxisbbAfKlOAvys3-wNZ3n_8yDQ"/>
+</div>
+</div>
+</header>
+<main class="max-w-md mx-auto px-5 pt-10 space-y-10">
+<!-- Status Banner -->
+<section class="flex justify-center mb-4">
+<span class="inline-flex items-center px-5 py-2.5 rounded-full bg-tertiary-fixed text-tertiary font-label text-[11px] font-extrabold uppercase tracking-[0.1em] shadow-sm">
+                En attente de validation
+            </span>
+</section>
+<!-- Intervention Details -->
+<section>
+<div class="bg-white p-7 rounded-2xl shadow-[0_4px_20px_rgba(0,35,111,0.05)] border border-slate-50 space-y-6">
+<div class="flex justify-between items-start">
+<div class="space-y-1">
+<p class="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest">Site Client</p>
+<h2 class="text-2xl font-bold text-primary tracking-tight">Tour Alpha</h2>
+</div>
+<div class="p-3.5 bg-surface-container-low rounded-xl text-primary shadow-sm">
+<span class="material-symbols-outlined text-2xl" data-icon="domain">domain</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-6 pt-6 border-t border-slate-100">
+<div class="space-y-1">
+<p class="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest">Agent Responsable</p>
+<p class="font-semibold text-on-surface">Marc Dupont</p>
+</div>
+<div class="space-y-1">
+<p class="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest">Date &amp; Heure</p>
+<p class="font-semibold text-on-surface">24 Oct. 2023 • 14:30</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Review Section -->
+<section class="space-y-6">
+<h3 class="font-headline font-bold text-primary text-xl px-1">Révision du contrôle</h3>
+<div class="space-y-5">
+<!-- Checklist Summary -->
+<div class="bg-white p-6 rounded-2xl flex items-center justify-between shadow-sm border border-slate-50 hover:border-primary/10 transition-colors">
+<div class="flex items-center gap-5">
+<div class="w-14 h-14 bg-emerald-50 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-emerald-600 text-3xl" data-icon="task_alt">task_alt</span>
+</div>
+<div class="space-y-0.5">
+<p class="font-bold text-on-surface text-base">Checklist Complétée</p>
+<p class="text-sm text-slate-500">Toutes les zones vérifiées</p>
+</div>
+</div>
+<span class="text-emerald-600 font-extrabold text-xl">12/12</span>
+</div>
+<!-- Photo Proof Container -->
+<div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-50">
+<p class="font-bold text-on-surface text-base mb-5 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-xl" data-icon="photo_library">photo_library</span>
+                        Preuves photographiques
+                    </p>
+<div class="grid grid-cols-3 gap-3">
+<div class="aspect-square bg-surface-container-low rounded-xl overflow-hidden shadow-inner group">
+<img alt="Cleaning Proof 1" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA4X0CnRMxGViDyYZSbCfDJVmOxIol7MRKr0F-qzZlltlQCJIR7nk20r7V8D_fRDq0jtKWgGOstL_0Bq_jTUxALHIsnz63sIWgE8aZgpKn5X4oIVkwlNvPLVcOprM7rr9NkuqJTNEzIJV2AlAdBGatnvOiQGr1O0fj_PKmx_1I4lYKgb8xuLfJrHGZHPu8slbToETkZXOvX1gW_m7TxZ89S8EqBY0T-GAom1BUzov1tWcNnKGFYWWoGdbAryYNPuAl5soQmX7jP6-Q"/>
+</div>
+<div class="aspect-square bg-surface-container-low rounded-xl overflow-hidden shadow-inner group">
+<img alt="Cleaning Proof 2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0IMCRohL74VpHyskRO67JL-H2xiI4zSt1o9vRK0NIjJOJuoCtFM9U3SBzQYynGCP5SJVETKF4PlT2OzWFnJnL5GhD3A_rasTS4zJ5Jl--XOmzv49tafaSdjelMgoGAjCMFpRdN1d-u70CbVe3V_4ff66KiWg_qczdx665qhW7jflgfm3rlPAP55ng5iaoBKlJ-O9HgIEF6kEZOenlma32DxR7vefKBayvsfNnl1OhKWQBbmlRBmfWBdeo9zrMVD2rsfMP5ON1CAI"/>
+</div>
+<button class="aspect-square bg-surface-container-low rounded-xl flex items-center justify-center border-2 border-dashed border-slate-200 text-slate-300 hover:text-primary hover:border-primary/30 transition-all active:scale-95">
+<span class="material-symbols-outlined text-3xl" data-icon="add_a_photo">add_a_photo</span>
+</button>
+</div>
+</div>
+<!-- Notes Card -->
+<div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-50">
+<p class="font-bold text-on-surface text-base mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-xl" data-icon="comment">comment</span>
+                        Notes de l'agent
+                    </p>
+<div class="bg-surface-container-low/50 p-5 rounded-xl border border-slate-100">
+<p class="text-[15px] text-on-surface-variant leading-relaxed italic">
+                            "Nettoyage approfondi des vitres du hall d'accueil effectué. Aucun problème signalé sur le reste du parcours. Le code d'accès de l'étage 4 a été mis à jour."
+                        </p>
+</div>
+</div>
+</div>
+</section>
+<!-- Action Card -->
+<section class="pb-6">
+<div class="bg-primary p-7 rounded-2xl shadow-xl shadow-blue-900/10 text-white space-y-7">
+<div class="flex items-center gap-5">
+<div class="w-14 h-14 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-md">
+<span class="material-symbols-outlined text-white text-3xl" data-icon="picture_as_pdf">picture_as_pdf</span>
+</div>
+<div class="space-y-1">
+<p class="text-white/70 text-[10px] font-extrabold uppercase tracking-widest">Document de synthèse</p>
+<h4 class="font-bold text-xl leading-tight">Rapport d'intervention PDF</h4>
+</div>
+</div>
+<button class="w-full bg-white text-primary font-bold py-4.5 h-[60px] rounded-xl flex items-center justify-center gap-3 hover:bg-slate-50 transition-all active:scale-[0.98] shadow-lg shadow-black/5">
+<span class="material-symbols-outlined text-2xl" data-icon="cloud_upload">cloud_upload</span>
+                    Générer et uploader le rapport
+                </button>
+</div>
+</section>
+</main>
+<!-- Final Footer Button Area -->
+<div class="fixed bottom-0 left-0 w-full bg-white/95 backdrop-blur-2xl px-6 pt-5 pb-8 shadow-[0_-12px_32px_rgba(0,35,111,0.08)] border-t border-slate-100 z-40">
+<div class="max-w-md mx-auto">
+<button class="w-full bg-primary text-white font-bold py-5 h-[68px] rounded-2xl shadow-2xl shadow-blue-900/30 flex items-center justify-center gap-3 hover:bg-primary/90 transition-all active:scale-[0.98]">
+<span class="material-symbols-outlined text-2xl" data-icon="send">send</span>
+<span class="text-base tracking-wide">Valider et Envoyer au Client</span>
+</button>
+</div>
+</div>
+</body></html>

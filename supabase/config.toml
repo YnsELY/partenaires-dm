@@ -1,0 +1,51 @@
+project_id = "les-partenaires-dm"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "storage", "graphql_public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[db]
+port = 54322
+shadow_port = 54320
+major_version = 15
+
+[studio]
+enabled = true
+port = 54323
+
+[realtime]
+enabled = true
+
+[auth]
+enabled = true
+site_url = "http://localhost:3000"
+additional_redirect_urls = ["partenairesdm://"]
+jwt_expiry = 3600
+enable_signup = true
+
+[auth.email]
+enable_signup = true
+double_confirm_changes = false
+enable_confirmations = false
+
+[storage]
+enabled = true
+file_size_limit = "10MiB"
+
+[functions.signup-with-role]
+verify_jwt = false
+
+[functions.submit-intervention]
+verify_jwt = true
+
+[functions.admin-create-agent]
+verify_jwt = true
+
+[functions.validate-intervention]
+verify_jwt = true
+
+[functions.generate-report]
+verify_jwt = true

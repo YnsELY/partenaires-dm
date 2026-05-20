@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Planning de mes interventions</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-secondary-fixed-variant": "#004b73",
+                      "error": "#ba1a1a",
+                      "secondary": "#006398",
+                      "on-surface": "#181c21",
+                      "on-primary": "#ffffff",
+                      "on-secondary-container": "#004971",
+                      "on-tertiary-fixed": "#351000",
+                      "tertiary-fixed-dim": "#ffb595",
+                      "outline-variant": "#c4c5d3",
+                      "inverse-surface": "#2d3136",
+                      "on-primary-container": "#91a9ff",
+                      "on-tertiary-container": "#fa9261",
+                      "surface-dim": "#d7dae1",
+                      "on-primary-fixed": "#00164e",
+                      "inverse-primary": "#b5c4ff",
+                      "background": "#f7f9ff",
+                      "on-error": "#ffffff",
+                      "secondary-fixed-dim": "#93ccff",
+                      "on-background": "#181c21",
+                      "surface": "#f7f9ff",
+                      "primary-fixed-dim": "#b5c4ff",
+                      "tertiary": "#4e1a00",
+                      "surface-variant": "#dfe2e9",
+                      "on-error-container": "#93000a",
+                      "primary-fixed": "#dce1ff",
+                      "primary-container": "#1a3a8f",
+                      "primary": "#00236f",
+                      "surface-container-lowest": "#ffffff",
+                      "on-tertiary": "#ffffff",
+                      "secondary-fixed": "#cce5ff",
+                      "inverse-on-surface": "#eef1f8",
+                      "surface-container-highest": "#dfe2e9",
+                      "surface-container": "#ebeef5",
+                      "on-primary-fixed-variant": "#224095",
+                      "outline": "#757683",
+                      "surface-container-high": "#e5e8ef",
+                      "secondary-container": "#64bafe",
+                      "on-surface-variant": "#444652",
+                      "on-tertiary-fixed-variant": "#7a3005",
+                      "surface-bright": "#f7f9ff",
+                      "tertiary-container": "#722a00",
+                      "surface-tint": "#3d59af",
+                      "on-secondary-fixed": "#001d31",
+                      "surface-container-low": "#f1f4fb",
+                      "tertiary-fixed": "#ffdbcc",
+                      "on-secondary": "#ffffff",
+                      "error-container": "#ffdad6"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {},
+              "fontFamily": {
+                      "headline": [
+                              "Inter"
+                      ],
+                      "body": [
+                              "Inter"
+                      ],
+                      "label": [
+                              "Inter"
+                      ]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen flex flex-col pt-16 pb-24">
+<!-- TopAppBar -->
+<header class="bg-surface/80 dark:bg-slate-900/80 backdrop-blur-md fixed top-0 w-full z-50 shadow-sm dark:shadow-none flex justify-between items-center px-6 h-16 w-full">
+<div class="flex items-center gap-4">
+<div class="w-8 h-8 rounded-full overflow-hidden bg-surface-container-high shrink-0">
+<img alt="User avatar" class="w-full h-full object-cover" data-alt="Portrait of a smiling man in a business environment, professional lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDC7FKg9DAtRG4vVXPxX16Kmxi8SBiyFJO6i9yi258WTGlIQzB8A_N3ILATZe4ldnaDyVVT1qJS76FscV19hITrS3dRESuQtY2c708PbziIeIBo73Ex5qu02UgtdjxEffBVp1j34hRxck7nUeh_xB6VaemAU0qrV4BatBwwX3C-6EK0L-RouXVjSxECMgrVHBzypqPrgVpeItgS9foDzRasLJcO2aSoYSjJWFHreuOaE1MJoDCWWhDiUaQhxtgVlF0NOW-IJ2omdPM"/>
+</div>
+<h1 class="font-['Inter'] font-bold text-xl tracking-tight text-[#00236f] dark:text-blue-400 tracking-tighter">Les Partenaires DM</h1>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-blue-50 dark:hover:bg-blue-900/20 active:scale-95 transition-transform duration-200 text-on-surface-variant">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow px-6 py-8 md:px-12 max-w-4xl mx-auto w-full flex flex-col gap-8">
+<!-- Header Section -->
+<section>
+<h2 class="text-[1.5rem] font-bold text-primary mb-2">Planning de mes interventions</h2>
+<p class="text-[1rem] text-on-surface-variant">Aperçu de vos missions pour le mois de Novembre.</p>
+</section>
+<!-- Calendar Component (Minimal) -->
+<section class="bg-surface-container-lowest rounded-xl p-6 shadow-[0_8px_24px_rgba(24,28,33,0.06)] relative overflow-hidden">
+<!-- Decorative Gradient Header -->
+<div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-primary to-primary-container"></div>
+<div class="flex justify-between items-center mb-6">
+<h3 class="text-[1.125rem] font-semibold text-on-surface">Novembre 2023</h3>
+<div class="flex gap-2">
+<button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">chevron_left</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- Calendar Grid -->
+<div class="grid grid-cols-7 gap-2 text-center text-[0.75rem] font-semibold text-on-secondary-container uppercase tracking-widest mb-4">
+<div>Lun</div><div>Mar</div><div>Mer</div><div>Jeu</div><div>Ven</div><div>Sam</div><div>Dim</div>
+</div>
+<div class="grid grid-cols-7 gap-2 text-center text-[1rem] text-on-surface">
+<!-- Empty slots -->
+<div class="text-on-surface-variant/30 py-2">30</div>
+<div class="text-on-surface-variant/30 py-2">31</div>
+<!-- Days -->
+<div class="py-2 relative">1</div>
+<div class="py-2 relative">
+                    2
+                    <div class="absolute bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-primary rounded-full"></div>
+</div>
+<div class="py-2 relative">3</div>
+<div class="py-2 relative">4</div>
+<div class="py-2 relative text-on-surface-variant/50">5</div>
+<div class="py-2 relative">6</div>
+<div class="py-2 relative bg-primary-container text-on-primary rounded-full font-bold shadow-md">
+                    7
+                    <div class="absolute bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-on-primary rounded-full"></div>
+</div>
+<div class="py-2 relative">8</div>
+<div class="py-2 relative">
+                    9
+                    <div class="absolute bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-primary rounded-full"></div>
+</div>
+<div class="py-2 relative">10</div>
+<div class="py-2 relative">11</div>
+<div class="py-2 relative text-on-surface-variant/50">12</div>
+<div class="py-2 relative">13</div>
+<div class="py-2 relative">
+                    14
+                    <div class="absolute bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-primary rounded-full"></div>
+</div>
+<div class="py-2 relative">15</div>
+<div class="py-2 relative">16</div>
+<div class="py-2 relative">
+                    17
+                    <div class="absolute bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-primary rounded-full"></div>
+</div>
+<div class="py-2 relative">18</div>
+<div class="py-2 relative text-on-surface-variant/50">19</div>
+<div class="py-2 relative">20</div>
+<div class="py-2 relative">21</div>
+<div class="py-2 relative">22</div>
+<div class="py-2 relative">23</div>
+<div class="py-2 relative">24</div>
+<div class="py-2 relative">25</div>
+<div class="py-2 relative text-on-surface-variant/50">26</div>
+<div class="py-2 relative">27</div>
+<div class="py-2 relative">28</div>
+<div class="py-2 relative">29</div>
+<div class="py-2 relative">30</div>
+<!-- Empty slots end -->
+<div class="text-on-surface-variant/30 py-2">1</div>
+<div class="text-on-surface-variant/30 py-2">2</div>
+<div class="text-on-surface-variant/30 py-2 text-on-surface-variant/50">3</div>
+</div>
+</section>
+<!-- Upcoming & Past Interventions -->
+<section class="flex flex-col gap-6">
+<!-- Upcoming -->
+<div>
+<h3 class="text-[1.125rem] font-semibold text-on-surface mb-4">À venir (Aujourd'hui)</h3>
+<div class="flex flex-col gap-4">
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest rounded-xl p-5 relative overflow-hidden group hover:bg-surface-container-low transition-colors cursor-pointer border border-outline-variant/15 shadow-[0_8px_24px_rgba(24,28,33,0.06)]">
+<div class="absolute left-0 top-0 h-full w-1 bg-primary group-hover:w-2 transition-all"></div>
+<div class="flex justify-between items-start mb-3 pl-3">
+<div>
+<p class="text-[0.75rem] font-semibold text-secondary uppercase tracking-widest mb-1">Mar 7 Nov</p>
+<h4 class="text-[1.125rem] font-semibold text-on-surface">Clinique des Ormes</h4>
+<p class="text-[1rem] text-on-surface-variant">Entretien complet des chambres</p>
+</div>
+<div class="bg-secondary/10 text-secondary px-3 py-1 rounded-full text-[0.75rem] font-semibold">
+                                08:00 - 12:00
+                            </div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-lowest rounded-xl p-5 relative overflow-hidden group hover:bg-surface-container-low transition-colors cursor-pointer border border-outline-variant/15 shadow-[0_8px_24px_rgba(24,28,33,0.06)]">
+<div class="absolute left-0 top-0 h-full w-1 bg-secondary group-hover:w-2 transition-all"></div>
+<div class="flex justify-between items-start mb-3 pl-3">
+<div>
+<p class="text-[0.75rem] font-semibold text-secondary uppercase tracking-widest mb-1">Mar 7 Nov</p>
+<h4 class="text-[1.125rem] font-semibold text-on-surface">Laboratoire BioMed</h4>
+<p class="text-[1rem] text-on-surface-variant">Désinfection blocs opératoires</p>
+</div>
+<div class="bg-secondary/10 text-secondary px-3 py-1 rounded-full text-[0.75rem] font-semibold">
+                                14:00 - 18:00
+                            </div>
+</div>
+</div>
+</div>
+</div>
+<!-- Past Interventions -->
+<div>
+<h3 class="text-[1.125rem] font-semibold text-on-surface mb-4">Interventions passées</h3>
+<div class="flex flex-col gap-4">
+<!-- Past Card 1 -->
+<div class="bg-surface-container-low rounded-xl p-5 flex justify-between items-center opacity-80 border border-outline-variant/15">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-surface-variant flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div>
+<p class="text-[0.75rem] font-semibold text-on-surface-variant uppercase tracking-widest mb-0.5">Jeu 2 Nov</p>
+<h4 class="text-[1rem] font-medium text-on-surface-variant">Hôpital Saint-Louis</h4>
+</div>
+</div>
+<span class="text-[0.875rem] text-on-surface-variant">Terminé</span>
+</div>
+<!-- Past Card 2 -->
+<div class="bg-surface-container-low rounded-xl p-5 flex justify-between items-center opacity-80 border border-outline-variant/15">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-surface-variant flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div>
+<p class="text-[0.75rem] font-semibold text-on-surface-variant uppercase tracking-widest mb-0.5">Lun 30 Oct</p>
+<h4 class="text-[1rem] font-medium text-on-surface-variant">Cabinet Dentaire Sourire</h4>
+</div>
+</div>
+<span class="text-[0.875rem] text-on-surface-variant">Terminé</span>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="bg-white/90 dark:bg-slate-950/90 backdrop-blur-xl fixed bottom-0 w-full z-50 rounded-t-[24px] border-t border-slate-100/10 shadow-[0_-8px_24px_rgba(24,28,33,0.06)] md:hidden">
+<div class="flex justify-around items-center w-full px-2 pb-safe pt-2 h-[80px]">
+<button class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 px-4 py-2 hover:text-[#1a3a8f] dark:hover:text-blue-200 active:scale-90 transition-all duration-300 ease-out group">
+<span class="material-symbols-outlined mb-1 transition-transform group-hover:-translate-y-1">home</span>
+<span class="font-['Inter'] text-[10px] font-semibold uppercase tracking-widest">Home</span>
+</button>
+<button class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 px-4 py-2 hover:text-[#1a3a8f] dark:hover:text-blue-200 active:scale-90 transition-all duration-300 ease-out group">
+<span class="material-symbols-outlined mb-1 transition-transform group-hover:-translate-y-1">photo_library</span>
+<span class="font-['Inter'] text-[10px] font-semibold uppercase tracking-widest">Photos</span>
+</button>
+<button class="flex flex-col items-center justify-center bg-blue-50 dark:bg-blue-900/30 text-[#00236f] dark:text-blue-300 rounded-2xl px-4 py-2 active:scale-90 transition-all duration-300 ease-out">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">calendar_today</span>
+<span class="font-['Inter'] text-[10px] font-semibold uppercase tracking-widest">Planning</span>
+</button>
+<button class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 px-4 py-2 hover:text-[#1a3a8f] dark:hover:text-blue-200 active:scale-90 transition-all duration-300 ease-out group">
+<span class="material-symbols-outlined mb-1 transition-transform group-hover:-translate-y-1">chat_bubble</span>
+<span class="font-['Inter'] text-[10px] font-semibold uppercase tracking-widest">Messages</span>
+</button>
+<button class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 px-4 py-2 hover:text-[#1a3a8f] dark:hover:text-blue-200 active:scale-90 transition-all duration-300 ease-out group">
+<span class="material-symbols-outlined mb-1 transition-transform group-hover:-translate-y-1">description</span>
+<span class="font-['Inter'] text-[10px] font-semibold uppercase tracking-widest">Reports</span>
+</button>
+</div>
+</nav>
+</body></html>
