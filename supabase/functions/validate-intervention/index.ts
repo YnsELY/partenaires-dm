@@ -20,6 +20,7 @@ type ValidateBody = {
   intervention_id: string;
   action: 'validate';
   admin_summary?: string;
+  admin_details?: string;
   global_result: 'ok' | 'to_improve';
   validated_media_ids?: string[];
 };
@@ -81,6 +82,7 @@ Deno.serve(async (req) => {
         status: 'validated',
         validated_at: new Date().toISOString(),
         admin_summary: body.admin_summary ?? null,
+        admin_details: body.admin_details ?? null,
         global_result: body.global_result,
       })
       .eq('id', body.intervention_id);
@@ -100,6 +102,7 @@ Deno.serve(async (req) => {
     // Auto-génère le PDF de rapport en arrière-plan, pour que le client
     // ait directement un bouton "Voir le rapport PDF" fonctionnel sans
     // attendre que l'admin clique manuellement sur la génération.
+    triggerNotification(req, 'intervention_validated', body.intervention_id);
     triggerPdfGeneration(req, body.intervention_id);
 
     return json({ ok: true, validated_media_count: validatedCount ?? 0 }, 200);
@@ -120,6 +123,8 @@ Deno.serve(async (req) => {
       .eq('id', body.intervention_id);
 
     if (updErr) return json({ error: updErr.message }, 500);
+
+    triggerNotification(req, 'intervention_rejected', body.intervention_id);
 
     return json({ ok: true }, 200);
   }
@@ -169,4 +174,27 @@ function triggerPdfGeneration(req: Request, interventionId: string): void {
     EdgeRuntime.waitUntil(task);
   }
   // Sinon : fire-and-forget. La promesse continue à tourner même si on return.
+}
+
+function triggerNotification(req: Request, type: string, entityId: string): void {
+  const SUPABASE_URL = Deno.env.get('SUPABASE_URL');
+  const authHeader = req.headers.get('Authorization');
+  if (!SUPABASE_URL || !authHeader) return;
+
+  const task = fetch(`${SUPABASE_URL}/functions/v1/dispatch-notification`, {
+    method: 'POST',
+    headers: {
+      Authorization: authHeader,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ type, entity_id: entityId }),
+  }).catch((e) => {
+    console.error('[validate-intervention] notification error:', e);
+  });
+
+  // @ts-ignore EdgeRuntime n'est pas dans les types par défaut
+  if (typeof EdgeRuntime !== 'undefined' && EdgeRuntime?.waitUntil) {
+    // @ts-ignore
+    EdgeRuntime.waitUntil(task);
+  }
 }

@@ -25,7 +25,6 @@ type Mode = 'signin' | 'signup';
 const ROLES: { value: Role; label: string; icon: keyof typeof MaterialIcons.glyphMap; description: string }[] = [
   { value: 'agent', label: 'Agent', icon: 'engineering', description: 'Documente les missions sur le terrain.' },
   { value: 'client', label: 'Client', icon: 'apartment', description: 'Consulte les rapports et photos de tes sites.' },
-  { value: 'admin', label: 'Admin', icon: 'admin-panel-settings', description: 'Pilote les équipes, sites et validations.' },
 ];
 
 export default function LoginScreen() {
@@ -40,6 +39,7 @@ export default function LoginScreen() {
   const [fullName, setFullName] = useState('');
   const [phone, setPhone] = useState('');
   const [role, setRole] = useState<Role>('agent');
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
 
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -74,6 +74,10 @@ export default function LoginScreen() {
     if (!fullName.trim()) return setError('Le nom complet est requis.');
     if (!email.trim()) return setError("L'email est requis.");
     if (password.length < 6) return setError('Le mot de passe doit faire au moins 6 caractères.');
+    if (!acceptedTerms)
+      return setError(
+        'Vous devez accepter les CGV/CGU, les mentions légales et la politique de confidentialité.'
+      );
     setSubmitting(true);
     try {
       await signUp({
@@ -257,6 +261,33 @@ export default function LoginScreen() {
             </>
           ) : null}
 
+          {mode === 'signup' ? (
+            <View style={styles.checkboxRow}>
+              <Pressable onPress={() => setAcceptedTerms((v) => !v)} hitSlop={8}>
+                <MaterialIcons
+                  name={acceptedTerms ? 'check-box' : 'check-box-outline-blank'}
+                  size={26}
+                  color={acceptedTerms ? colors.primary : colors.outline}
+                />
+              </Pressable>
+              <Text style={styles.checkboxText}>
+                J'ai lu et j'accepte les{' '}
+                <Text style={styles.link} onPress={() => router.push('/legal?doc=cgu')}>
+                  CGV/CGU
+                </Text>
+                , les{' '}
+                <Text style={styles.link} onPress={() => router.push('/legal?doc=mentions')}>
+                  mentions légales
+                </Text>{' '}
+                et la{' '}
+                <Text style={styles.link} onPress={() => router.push('/legal?doc=confidentialite')}>
+                  politique de confidentialité
+                </Text>
+                .
+              </Text>
+            </View>
+          ) : null}
+
           <View style={{ marginTop: 22 }}>
             <PrimaryButton
               label={mode === 'signin' ? 'Se connecter' : 'Créer mon compte'}
@@ -286,6 +317,20 @@ export default function LoginScreen() {
                 : 'Déjà un compte ? Se connecter'}
             </Text>
           </Pressable>
+
+          <View style={styles.legalFooter}>
+            <Text style={styles.legalLink} onPress={() => router.push('/legal?doc=mentions')}>
+              Mentions légales
+            </Text>
+            <Text style={styles.legalDot}>·</Text>
+            <Text style={styles.legalLink} onPress={() => router.push('/legal?doc=cgu')}>
+              CGV/CGU
+            </Text>
+            <Text style={styles.legalDot}>·</Text>
+            <Text style={styles.legalLink} onPress={() => router.push('/legal?doc=confidentialite')}>
+              Confidentialité
+            </Text>
+          </View>
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
@@ -411,4 +456,38 @@ const styles = StyleSheet.create({
   roleDescription: { fontSize: 12, color: colors.onSurfaceVariant, marginTop: 1 },
   switchLink: { alignItems: 'center', paddingVertical: 16 },
   switchText: { color: colors.secondary, fontSize: 13, fontWeight: '600' },
+  checkboxRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 12,
+    marginTop: 18,
+    paddingHorizontal: 2,
+  },
+  checkboxText: {
+    flex: 1,
+    fontSize: 13,
+    lineHeight: 20,
+    color: colors.onSurfaceVariant,
+  },
+  link: {
+    color: colors.primary,
+    fontWeight: '700',
+    textDecorationLine: 'underline',
+  },
+  legalFooter: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 8,
+    paddingTop: 4,
+    paddingBottom: 12,
+  },
+  legalLink: {
+    fontSize: 12,
+    color: colors.onSurfaceVariant,
+    fontWeight: '600',
+    textDecorationLine: 'underline',
+  },
+  legalDot: { fontSize: 12, color: colors.outline },
 });

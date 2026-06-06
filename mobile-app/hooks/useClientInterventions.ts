@@ -34,7 +34,8 @@ export function useClientInterventions(filters: Filters = {}) {
       .select(
         `
         id, site_id, agent_id, team_id, scheduled_at, started_at, submitted_at,
-        validated_at, status, agent_notes, admin_summary, global_result, pdf_url, created_at,
+        validated_at, status, agent_notes, admin_summary, admin_details, global_result,
+        pdf_url, created_at,
         site:sites ( id, name, address, service_type, description, photo_url )
         `
       )

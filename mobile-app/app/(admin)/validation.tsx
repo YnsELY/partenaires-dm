@@ -29,6 +29,7 @@ import {
   Media,
   ChecklistTask,
   ChecklistResult,
+  Evaluation,
 } from '../../lib/supabase';
 import { PhotoViewer, ViewerPhoto } from '../../components/PhotoViewer';
 import { openUrl } from '../../lib/openUrl';
@@ -40,6 +41,11 @@ type Bundle = {
   tasks: ChecklistTask[];
   results: Record<string, ChecklistResult>;
   media: Media[];
+  evaluations: Array<
+    Evaluation & {
+      client: Pick<Profile, 'id' | 'full_name' | 'email'> | null;
+    }
+  >;
 };
 
 export default function AdminValidation() {
@@ -50,8 +56,11 @@ export default function AdminValidation() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [adminSummary, setAdminSummary] = useState('');
+  const [adminDetails, setAdminDetails] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [resultModal, setResultModal] = useState(false);
+  const [pendingResult, setPendingResult] = useState<'ok' | 'to_improve' | null>(null);
+  const [emailConfirmModal, setEmailConfirmModal] = useState(false);
   const [rejectModal, setRejectModal] = useState(false);
   const [rejectReason, setRejectReason] = useState('');
   const [viewer, setViewer] = useState<{
@@ -74,8 +83,8 @@ export default function AdminValidation() {
       .select(
         `
         id, site_id, agent_id, team_id, scheduled_at, started_at, submitted_at,
-        validated_at, status, agent_notes, admin_summary, admin_notes, global_result,
-        pdf_url, created_at,
+        validated_at, status, agent_notes, admin_summary, admin_details, admin_notes,
+        global_result, pdf_url, created_at,
         site:sites ( id, name, address, service_type ),
         agent:profiles!interventions_agent_id_fkey ( id, full_name, email )
         `
@@ -108,13 +117,24 @@ export default function AdminValidation() {
         .is('intervention_id', null)
         .order('order_index', { ascending: true });
     }
-    const [{ data: results }, { data: media }] = await Promise.all([
+    const [{ data: results }, { data: media }, { data: evaluations }] = await Promise.all([
       supabase.from('checklist_results').select('*').eq('intervention_id', interventionId),
       supabase
         .from('media')
         .select('*')
         .eq('intervention_id', interventionId)
         .order('taken_at', { ascending: true }),
+      supabase
+        .from('evaluations')
+        .select(
+          `
+          id, intervention_id, client_profile_id, rating, satisfaction, comment,
+          created_at, updated_at,
+          client:profiles!evaluations_client_profile_id_fkey ( id, full_name, email )
+          `
+        )
+        .eq('intervention_id', interventionId)
+        .order('updated_at', { ascending: false }),
     ]);
     const tasks = tasksRes.data;
 
@@ -130,8 +150,10 @@ export default function AdminValidation() {
       tasks: (tasks ?? []) as ChecklistTask[],
       results: map,
       media: mediaList,
+      evaluations: ((evaluations ?? []) as unknown) as Bundle['evaluations'],
     });
     setAdminSummary(intervention.admin_summary ?? '');
+    setAdminDetails(intervention.admin_details ?? '');
     setLoading(false);
   }, [interventionId]);
 
@@ -174,11 +196,13 @@ export default function AdminValidation() {
         intervention_id: bundle.intervention.id,
         action: 'validate',
         admin_summary: adminSummary,
+        admin_details: adminDetails,
         global_result,
       },
     });
     setSubmitting(false);
     setResultModal(false);
+    setPendingResult(null);
 
     if (fnErr || (data as any)?.error) {
       Alert.alert(
@@ -188,7 +212,7 @@ export default function AdminValidation() {
       return;
     }
 
-    Alert.alert('Intervention validée', 'Le client peut désormais consulter le rapport.', [
+    Alert.alert('Intervention validée', 'Le client peut désormais consulter le rapport. Un email avec le rapport PDF lui sera envoyé automatiquement.', [
       { text: 'OK', onPress: () => router.replace('/(admin)/(tabs)/home') },
     ]);
   };
@@ -554,6 +578,44 @@ export default function AdminValidation() {
           </Card>
         ) : null}
 
+        {bundle.evaluations.length > 0 ? (
+          <Card padding={22}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+              <MaterialIcons name="star" size={20} color={colors.primary} />
+              <Text style={{ fontSize: 16, fontWeight: '700', color: colors.onSurface }}>
+                Avis client
+              </Text>
+              <Text style={{ marginLeft: 'auto', fontSize: 12, color: colors.onSurfaceVariant }}>
+                {bundle.evaluations.length}
+              </Text>
+            </View>
+            <View style={{ gap: 12 }}>
+              {bundle.evaluations.map((ev) => (
+                <View key={ev.id} style={styles.evaluationBox}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                    <Text style={{ fontSize: 14, fontWeight: '700', color: colors.onSurface, flex: 1 }}>
+                      {ev.client?.full_name ?? ev.client?.email ?? 'Client'}
+                    </Text>
+                    {ev.rating ? (
+                      <Text style={styles.ratingText}>{ev.rating}/5</Text>
+                    ) : null}
+                  </View>
+                  {ev.satisfaction ? (
+                    <Badge
+                      label={ev.satisfaction === 'to_improve' ? 'À AMÉLIORER' : 'SATISFAIT'}
+                      variant={ev.satisfaction === 'to_improve' ? 'warning' : 'success'}
+                      small
+                    />
+                  ) : null}
+                  {ev.comment ? (
+                    <Text style={styles.evaluationComment}>{ev.comment}</Text>
+                  ) : null}
+                </View>
+              ))}
+            </View>
+          </Card>
+        ) : null}
+
         <Card padding={22}>
           <Text style={styles.kicker}>RÉSUMÉ POUR LE CLIENT</Text>
           <TextInput
@@ -564,6 +626,31 @@ export default function AdminValidation() {
             value={adminSummary}
             onChangeText={setAdminSummary}
             style={styles.textarea}
+          />
+        </Card>
+
+        <Card padding={22}>
+          <Text style={styles.kicker}>DÉTAILS À AJOUTER</Text>
+          <Text
+            style={{
+              fontSize: 12,
+              color: colors.onSurfaceVariant,
+              marginTop: 4,
+              lineHeight: 18,
+            }}
+          >
+            Précisions complémentaires sur l'intervention (contexte, points
+            d'attention, recommandations). Ces détails apparaîtront dans le PDF
+            envoyé au client, en plus du résumé.
+          </Text>
+          <TextInput
+            multiline
+            editable={!isFinal}
+            placeholder="Ex: zones traitées en priorité, produits utilisés, recommandations..."
+            placeholderTextColor="rgba(68, 70, 82, 0.5)"
+            value={adminDetails}
+            onChangeText={setAdminDetails}
+            style={[styles.textarea, { minHeight: 140 }]}
           />
         </Card>
 
@@ -637,7 +724,11 @@ export default function AdminValidation() {
             <View style={{ flexDirection: 'row', gap: 10, marginTop: 18 }}>
               <Pressable
                 style={[styles.resultBtn, { backgroundColor: 'rgba(22, 163, 74, 0.10)' }]}
-                onPress={() => onValidate('ok')}
+                onPress={() => {
+                  setResultModal(false);
+                  setPendingResult('ok');
+                  setEmailConfirmModal(true);
+                }}
                 disabled={submitting}
               >
                 <MaterialIcons name="check-circle" size={26} color="#16a34a" />
@@ -645,12 +736,83 @@ export default function AdminValidation() {
               </Pressable>
               <Pressable
                 style={[styles.resultBtn, { backgroundColor: 'rgba(245, 158, 11, 0.12)' }]}
-                onPress={() => onValidate('to_improve')}
+                onPress={() => {
+                  setResultModal(false);
+                  setPendingResult('to_improve');
+                  setEmailConfirmModal(true);
+                }}
                 disabled={submitting}
               >
                 <MaterialIcons name="warning" size={26} color="#b45309" />
                 <Text style={{ color: '#92400e', fontWeight: '700', marginTop: 6 }}>À AMÉLIORER</Text>
               </Pressable>
+            </View>
+          </Pressable>
+        </Pressable>
+      </Modal>
+
+      {/* Modal confirmation email */}
+      <Modal visible={emailConfirmModal} transparent animationType="fade">
+        <Pressable
+          style={styles.overlay}
+          onPress={() => {
+            if (!submitting) {
+              setEmailConfirmModal(false);
+              setPendingResult(null);
+            }
+          }}
+        >
+          <Pressable style={[styles.modalBox, { width: '88%' }]} onPress={() => {}}>
+            <View style={styles.emailConfirmIcon}>
+              <MaterialIcons name="mark-email-unread" size={28} color={colors.primary} />
+            </View>
+            <Text style={[styles.modalTitle, { marginTop: 14 }]}>Envoi du rapport par email</Text>
+            <Text style={[styles.modalSub, { marginTop: 8, lineHeight: 20 }]}>
+              En validant cette intervention, le rapport PDF sera{' '}
+              <Text style={{ fontWeight: '700', color: colors.onSurface }}>
+                automatiquement envoyé par email
+              </Text>{' '}
+              au(x) client(s) du chantier{site ? ` ${site.name}` : ''}.
+            </Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                gap: 8,
+                backgroundColor: 'rgba(0,35,111,0.06)',
+                borderRadius: 10,
+                padding: 12,
+                marginTop: 16,
+              }}
+            >
+              <MaterialIcons name="info-outline" size={16} color={colors.primary} />
+              <Text style={{ fontSize: 12, color: colors.onSurfaceVariant, flex: 1, lineHeight: 18 }}>
+                Le PDF sera généré et joint automatiquement à l'email.
+              </Text>
+            </View>
+            <View style={{ flexDirection: 'row', gap: 10, marginTop: 20 }}>
+              <PrimaryButton
+                label="Annuler"
+                variant="ghost"
+                style={{ flex: 1 }}
+                disabled={submitting}
+                onPress={() => {
+                  setEmailConfirmModal(false);
+                  setPendingResult(null);
+                }}
+              />
+              <PrimaryButton
+                label={submitting ? 'Validation…' : 'Confirmer et envoyer'}
+                icon="send"
+                style={{ flex: 1.6 }}
+                disabled={submitting}
+                onPress={() => {
+                  if (pendingResult) {
+                    setEmailConfirmModal(false);
+                    onValidate(pendingResult);
+                  }
+                }}
+              />
             </View>
             {submitting ? (
               <ActivityIndicator color={colors.primary} style={{ marginTop: 12 }} />
@@ -784,6 +946,26 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.surfaceContainerHigh,
   },
+  evaluationBox: {
+    backgroundColor: colors.surfaceContainerLow,
+    borderRadius: radii.lg,
+    padding: 14,
+    gap: 8,
+  },
+  ratingText: {
+    fontSize: 12,
+    fontWeight: '800',
+    color: colors.primary,
+    backgroundColor: 'rgba(0, 35, 111, 0.08)',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 999,
+  },
+  evaluationComment: {
+    fontSize: 13,
+    color: colors.onSurfaceVariant,
+    lineHeight: 19,
+  },
   textarea: {
     backgroundColor: colors.surfaceContainerLow,
     borderRadius: radii.lg,
@@ -823,6 +1005,15 @@ const styles = StyleSheet.create({
   },
   modalTitle: { fontSize: 18, fontWeight: '700', color: colors.primary },
   modalSub: { fontSize: 14, color: colors.onSurfaceVariant, marginTop: 6 },
+  emailConfirmIcon: {
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: 'rgba(0,35,111,0.08)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
+  },
   resultBtn: {
     flex: 1,
     aspectRatio: 1,

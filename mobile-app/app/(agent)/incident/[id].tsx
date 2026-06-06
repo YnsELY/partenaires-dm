@@ -23,6 +23,7 @@ import { colors, radii, responsive, typography } from '../../../constants/theme'
 import { supabase, Incident, Site, Profile, Media } from '../../../lib/supabase';
 import { useAuth } from '../../../contexts/AuthContext';
 import { incidentDisplay } from '../../../lib/incidentStatus';
+import { notifyEvent } from '../../../lib/notifications';
 
 type Bundle = Incident & {
   site: Pick<Site, 'id' | 'name' | 'address'> | null;
@@ -206,6 +207,7 @@ export default function AgentIncidentDetail() {
               Alert.alert('Erreur', err.message);
               return;
             }
+            notifyEvent('incident_resolution_submitted', bundle.id);
             Alert.alert('Envoyé', "L'admin va valider ton travail.", [
               { text: 'OK', onPress: () => router.back() },
             ]);

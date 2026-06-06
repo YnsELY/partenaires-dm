@@ -74,8 +74,8 @@ export default function ClientMessages() {
           <Text style={styles.title}>Aucune conversation</Text>
           <Text style={styles.subtitle}>
             {ensureError
-              ? `Impossible de joindre l'administration : ${ensureError}`
-              : "Tu pourras échanger ici avec l'administration."}
+              ? `Impossible de joindre l'équipe des Partenaires DM : ${ensureError}`
+              : "Vous pourrez échanger ici avec l'équipe des Partenaires DM."}
           </Text>
         </View>
       ) : (
@@ -93,7 +93,12 @@ export default function ClientMessages() {
           }
           renderItem={({ item }) => (
             <ConversationRow
-              name={item.partner?.full_name ?? 'Administration'}
+              name={
+                item.partner?.role === 'admin' || !item.partner
+                  ? 'Équipe DM'
+                  : (item.partner.full_name ?? 'Équipe DM')
+              }
+              role={item.partner?.role === 'admin' ? null : item.partner?.role}
               preview={item.last_message_preview}
               lastMessageAt={item.last_message_at}
               unread={item.unread_count}

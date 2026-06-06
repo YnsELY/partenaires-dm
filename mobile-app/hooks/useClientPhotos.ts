@@ -26,6 +26,11 @@ export function useClientPhotos(filters: Filters = {}) {
     setLoading(true);
     setError(null);
 
+    // Pas de filtre `is_validated` côté requête : la policy RLS
+    // `media_select_for_client` (cf. migration 0019) se charge de ne renvoyer
+    // que les photos des interventions validées sur les sites du client.
+    // Ajouter le filtre ici cachait toutes les photos quand le flag n'était
+    // pas posé sur les lignes (race / vieux uploads / bug de l'edge function).
     let query = supabase
       .from('media')
       .select(
@@ -34,7 +39,6 @@ export function useClientPhotos(filters: Filters = {}) {
         intervention:interventions ( id, scheduled_at, site_id, site:sites ( id, name ) )
         `
       )
-      .eq('is_validated', true)
       .order('taken_at', { ascending: true });
 
     if (filters.interventionId) {

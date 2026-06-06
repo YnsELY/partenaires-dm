@@ -49,3 +49,12 @@ verify_jwt = true
 
 [functions.generate-report]
 verify_jwt = true
+
+[functions.dispatch-notification]
+verify_jwt = true
+
+[functions.send-report-email]
+verify_jwt = true
+
+[functions.delete-account]
+verify_jwt = true

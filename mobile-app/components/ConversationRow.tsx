@@ -3,12 +3,27 @@ import { Pressable, View, Text, StyleSheet } from 'react-native';
 import { Avatar } from './Avatar';
 import { colors, radii } from '../constants/theme';
 
+type Role = 'admin' | 'agent' | 'client';
+
 type Props = {
   name: string;
+  role?: Role | null;
   preview: string | null;
   lastMessageAt: string;
   unread: number;
   onPress: () => void;
+};
+
+const ROLE_LABELS: Record<Role, string> = {
+  admin: 'Admin',
+  agent: 'Agent',
+  client: 'Client',
+};
+
+const ROLE_COLORS: Record<Role, { bg: string; text: string }> = {
+  admin: { bg: 'rgba(0, 35, 111, 0.10)', text: '#00236F' },
+  agent: { bg: 'rgba(2, 120, 100, 0.10)', text: '#027864' },
+  client: { bg: 'rgba(180, 100, 0, 0.10)', text: '#A05A00' },
 };
 
 function formatTime(iso: string) {
@@ -24,7 +39,7 @@ function formatTime(iso: string) {
   return d.toLocaleDateString('fr-FR', { day: '2-digit', month: 'short' });
 }
 
-export function ConversationRow({ name, preview, lastMessageAt, unread, onPress }: Props) {
+export function ConversationRow({ name, role, preview, lastMessageAt, unread, onPress }: Props) {
   const initials =
     name
       .split(' ')
@@ -33,14 +48,25 @@ export function ConversationRow({ name, preview, lastMessageAt, unread, onPress 
       .map((s) => s[0]?.toUpperCase())
       .join('') || '?';
 
+  const roleColor = role ? ROLE_COLORS[role] : null;
+
   return (
     <Pressable onPress={onPress} style={styles.row}>
       <Avatar initials={initials} size={48} />
       <View style={{ flex: 1, minWidth: 0 }}>
         <View style={styles.headerLine}>
-          <Text style={styles.name} numberOfLines={1}>
-            {name}
-          </Text>
+          <View style={styles.nameRow}>
+            {roleColor && role ? (
+              <View style={[styles.roleChip, { backgroundColor: roleColor.bg }]}>
+                <Text style={[styles.roleText, { color: roleColor.text }]}>
+                  {ROLE_LABELS[role]}
+                </Text>
+              </View>
+            ) : null}
+            <Text style={styles.name} numberOfLines={1}>
+              {name}
+            </Text>
+          </View>
           <Text style={styles.time}>{formatTime(lastMessageAt)}</Text>
         </View>
         <View style={styles.previewLine}>
@@ -86,6 +112,14 @@ const styles = StyleSheet.create({
     gap: 8,
     marginTop: 2,
   },
+  nameRow: { flexDirection: 'row', alignItems: 'center', gap: 6, flex: 1, minWidth: 0 },
+  roleChip: {
+    paddingHorizontal: 6,
+    paddingVertical: 1,
+    borderRadius: 4,
+    flexShrink: 0,
+  },
+  roleText: { fontSize: 10, fontWeight: '700', textTransform: 'uppercase', letterSpacing: 0.4 },
   name: { fontSize: 15, fontWeight: '700', color: colors.onSurface, flex: 1 },
   time: { fontSize: 11, color: colors.onSurfaceVariant, fontWeight: '600' },
   preview: { fontSize: 13, color: colors.onSurfaceVariant, flex: 1 },

@@ -69,6 +69,7 @@ export default function AgentMessages() {
           renderItem={({ item }) => (
             <ConversationRow
               name={item.partner?.full_name ?? 'Administration'}
+              role={item.partner?.role ?? 'admin'}
               preview={item.last_message_preview}
               lastMessageAt={item.last_message_at}
               unread={item.unread_count}

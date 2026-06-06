@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { supabase, Intervention, Site } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
+import { syncAgentInterventionReminders } from '../lib/notifications';
 
 export type InterventionWithSite = Intervention & {
   site: Pick<Site, 'id' | 'name' | 'address' | 'service_type' | 'photo_url' | 'description'> | null;
@@ -47,6 +48,8 @@ export function useAgentInterventions() {
 
     setState((s) => ({ ...s, loading: true, error: null }));
 
+    // Pas de filtre agent_id : la RLS renvoie toutes les interventions
+    // accessibles (agent principal, équipe, ou rattaché via intervention_agents).
     const { data, error } = await supabase
       .from('interventions')
       .select(
@@ -56,7 +59,6 @@ export function useAgentInterventions() {
         site:sites ( id, name, address, service_type, photo_url, description )
       `
       )
-      .eq('agent_id', session.user.id)
       .order('scheduled_at', { ascending: true });
 
     if (error) {
@@ -100,6 +102,9 @@ export function useAgentInterventions() {
       }
     }
 
+    syncAgentInterventionReminders(rows).catch((e) => {
+      console.warn('[notifications] reminder sync failed', e?.message ?? e);
+    });
     setState({ today, upcoming, past, inProgress, loading: false, error: null });
   }, [session?.user?.id]);
 
@@ -114,7 +119,11 @@ export function useAgentInterventions() {
     refresh();
   }, [refresh]);
 
-  // Realtime : refresh à chaque change sur interventions de cet agent.
+  // Realtime : refresh à chaque change pertinent. Comme un agent peut être
+  // rattaché à une intervention sans en être l'agent principal (multi-agents),
+  // on ne peut pas filtrer côté serveur sur agent_id ; on écoute donc toutes
+  // les interventions et on relit via la RLS (le payload n'est pas utilisé). On
+  // écoute aussi intervention_agents pour les ajouts/retraits de cet agent.
   // Nom de canal unique par montage pour éviter qu'un canal déjà subscribe()
   // soit récupéré par supabase.channel() (ce qui casse l'ajout de listener).
   useEffect(() => {
@@ -133,6 +142,17 @@ export function useAgentInterventions() {
           event: '*',
           schema: 'public',
           table: 'interventions',
+        },
+        () => {
+          refreshRef.current();
+        }
+      )
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'intervention_agents',
           filter: `agent_id=eq.${userId}`,
         },
         () => {

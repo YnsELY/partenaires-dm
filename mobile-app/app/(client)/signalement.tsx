@@ -25,6 +25,7 @@ import { useClientSites } from '../../hooks/useClientSites';
 import { useClientIncidents, ClientIncident } from '../../hooks/useClientIncidents';
 import { Badge } from '../../components/Badge';
 import { incidentDisplay } from '../../lib/incidentStatus';
+import { notifyEvent } from '../../lib/notifications';
 
 export default function ClientSignalement() {
   const { session } = useAuth();
@@ -95,20 +96,24 @@ export default function ClientSignalement() {
   }, [selectedSiteId]);
 
   const onSubmit = async () => {
-    if (!selectedSiteId) return Alert.alert('Champ requis', 'Choisis un site.');
+    if (!selectedSiteId) return Alert.alert('Champ requis', 'Veuillez sélectionner un site.');
     if (!description.trim())
-      return Alert.alert('Champ requis', "Décris brièvement le problème rencontré.");
+      return Alert.alert('Champ requis', 'Veuillez décrire brièvement le problème rencontré.');
     if (!session?.user?.id) return;
 
     setSubmitting(true);
-    const { error } = await supabase.from('incidents').insert({
-      site_id: selectedSiteId,
-      reported_by: session.user.id,
-      reporter_role: 'client',
-      zone: zone.trim() || null,
-      description: description.trim(),
-      status: 'open',
-    });
+    const { data: incident, error } = await supabase
+      .from('incidents')
+      .insert({
+        site_id: selectedSiteId,
+        reported_by: session.user.id,
+        reporter_role: 'client',
+        zone: zone.trim() || null,
+        description: description.trim(),
+        status: 'open',
+      })
+      .select('id')
+      .maybeSingle();
     setSubmitting(false);
 
     if (error) {
@@ -120,6 +125,7 @@ export default function ClientSignalement() {
     // signalement apparaître en tête.
     setZone('');
     setDescription('');
+    if (incident?.id) notifyEvent('incident_created', incident.id);
     await refreshIncidents();
 
     Alert.alert('Signalement envoyé', 'Notre équipe va le prendre en charge.');
@@ -172,16 +178,16 @@ export default function ClientSignalement() {
                 <MaterialIcons name="domain" size={42} color={colors.primary} />
                 <Text style={styles.emptyTitle}>Aucun site rattaché</Text>
                 <Text style={styles.emptySub}>
-                  Tu pourras signaler un problème dès qu'un site te sera rattaché par
-                  l'administrateur.
+                  Vous pourrez signaler un problème dès qu'un site vous sera rattaché par
+                  l'équipe des Partenaires DM.
                 </Text>
               </View>
             </Card>
           ) : (
             <Card padding={22}>
               <Text style={styles.intro}>
-                Décris le problème rencontré. Notre équipe interviendra dans les plus brefs délais
-                pour assurer la propreté et la sécurité de tes locaux.
+                Décrivez le problème rencontré. Notre équipe interviendra dans les plus brefs délais
+                pour assurer la propreté et la sécurité de vos locaux.
               </Text>
 
               <Field label="SITE CONCERNÉ *">

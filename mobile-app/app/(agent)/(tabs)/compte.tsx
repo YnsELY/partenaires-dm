@@ -17,6 +17,9 @@ import { Avatar } from '../../../components/Avatar';
 import { Card } from '../../../components/Card';
 import { Badge } from '../../../components/Badge';
 import { PrimaryButton } from '../../../components/PrimaryButton';
+import { PushDebugCard } from '../../../components/PushDebugCard';
+import { DeleteAccountCard } from '../../../components/DeleteAccountCard';
+import { LegalCard } from '../../../components/LegalCard';
 import { colors, radii, responsive, typography } from '../../../constants/theme';
 import { useAuth } from '../../../contexts/AuthContext';
 import { supabase } from '../../../lib/supabase';
@@ -157,6 +160,12 @@ export default function AgentCompte() {
               <Text style={styles.signOutText}>Se déconnecter</Text>
             </Pressable>
           </Card>
+
+          <PushDebugCard />
+
+          <LegalCard />
+
+          <DeleteAccountCard />
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>

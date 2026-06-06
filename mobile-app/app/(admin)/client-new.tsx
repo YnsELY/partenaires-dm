@@ -21,6 +21,7 @@ import { Avatar } from '../../components/Avatar';
 import { colors, radii, responsive, typography } from '../../constants/theme';
 import { supabase } from '../../lib/supabase';
 import { useAdminClientUsers } from '../../hooks/useAdminClientUsers';
+import { notifyEvent } from '../../lib/notifications';
 
 export default function ClientNew() {
   const [name, setName] = useState('');
@@ -80,6 +81,7 @@ export default function ClientNew() {
         router.back();
         return;
       }
+      for (const userId of linkedUsers) notifyEvent('client_linked', userId);
     }
 
     setSubmitting(false);

@@ -7,19 +7,29 @@
     "scheme": "partenairesdm",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
+    "icon": "./assets/logo.png",
     "splash": {
       "backgroundColor": "#f7f9ff",
       "resizeMode": "contain"
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.lespartenairesdm.app"
+      "bundleIdentifier": "com.partenairesmultiservices.app",
+      "icon": "./assets/logo.png",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      },
+      "buildNumber": "2"
     },
     "android": {
-      "package": "com.lespartenairesdm.app",
+      "package": "com.partenairesmultiservices.app",
       "adaptiveIcon": {
+        "foregroundImage": "./assets/logo.png",
         "backgroundColor": "#00236f"
-      }
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "bundler": "metro",
@@ -36,10 +46,24 @@
         }
       ],
       "@react-native-community/datetimepicker",
-      "expo-web-browser"
+      "expo-web-browser",
+      [
+        "expo-notifications",
+        {
+          "color": "#00236f",
+          "defaultChannel": "default"
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "33cbf8f5-e6ed-4133-9d77-270a4203075a"
+      }
+    },
+    "owner": "marwann7"
   }
 }

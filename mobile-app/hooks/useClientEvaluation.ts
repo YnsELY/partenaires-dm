@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { supabase, Evaluation } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
+import { notifyEvent } from '../lib/notifications';
 
 type State = {
   evaluation: Evaluation | null;
@@ -81,6 +82,9 @@ export function useClientEvaluation(interventionId: string | null) {
         saving: false,
         error: null,
       });
+      if ((data as Evaluation | null)?.id) {
+        notifyEvent('evaluation_submitted', (data as Evaluation).id);
+      }
     },
     [interventionId, session?.user?.id]
   );

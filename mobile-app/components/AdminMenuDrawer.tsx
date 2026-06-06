@@ -30,6 +30,7 @@ const ENTRIES: Destination[] = [
   { label: 'Agents', icon: 'badge', href: '/(admin)/(tabs)/agents' },
   { label: 'Messagerie', icon: 'chat-bubble-outline', href: '/(admin)/(tabs)/messages' },
   { label: 'Rapports', icon: 'description', href: '/(admin)/(tabs)/reports' },
+  { label: 'Comptes', icon: 'manage-accounts', href: '/(admin)/comptes' },
   { label: 'Mon compte', icon: 'person-outline', href: '/(admin)/compte' },
 ];
 

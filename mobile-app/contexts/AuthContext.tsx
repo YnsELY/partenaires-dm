@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
 import { Session } from '@supabase/supabase-js';
 import { supabase, Profile, Role } from '../lib/supabase';
+import { deactivatePushToken } from '../lib/notifications';
 
 type AuthState = {
   session: Session | null;
@@ -117,9 +118,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   );
 
   const signOut = useCallback(async () => {
+    await deactivatePushToken(session?.user?.id ?? null);
     await supabase.auth.signOut();
     setProfile(null);
-  }, []);
+  }, [session?.user?.id]);
 
   return (
     <AuthContext.Provider

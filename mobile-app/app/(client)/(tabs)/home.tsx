@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import {
   View,
   Text,
@@ -28,6 +28,7 @@ import {
 import { useClientPhotos } from '../../../hooks/useClientPhotos';
 import { useClientIncidents, ClientIncident } from '../../../hooks/useClientIncidents';
 import { incidentDisplay } from '../../../lib/incidentStatus';
+import { syncClientInterventionReminders } from '../../../lib/notifications';
 
 export default function ClientHome() {
   const { profile } = useAuth();
@@ -45,6 +46,14 @@ export default function ClientHome() {
   });
   // Signalements actifs (filtre par défaut du hook = tous sauf 'closed')
   const { items: activeIncidents, refresh: refreshIncidents } = useClientIncidents();
+
+  // Planifie un rappel local 1h avant chaque intervention à venir sur les
+  // sites du client (miroir du rappel agent).
+  useEffect(() => {
+    syncClientInterventionReminders(activeIv).catch((e) => {
+      console.warn('[notifications] client reminder sync failed', e?.message ?? e);
+    });
+  }, [activeIv]);
 
   const lastIntervention = validated[0] ?? null;
   const lastInterventionId = lastIntervention?.id ?? null;
@@ -113,8 +122,8 @@ export default function ClientHome() {
               </View>
               <Text style={styles.emptyTitle}>Aucun site rattaché</Text>
               <Text style={styles.emptySub}>
-                Tu verras tes chantiers et rapports d'intervention ici dès que ton administrateur
-                t'aura donné accès à un site.
+                Vous verrez vos chantiers et rapports d'intervention ici dès que l'équipe des
+                Partenaires DM vous aura donné accès à un site.
               </Text>
             </View>
           </Card>
@@ -246,7 +255,7 @@ export default function ClientHome() {
                     </Text>
                   ) : (
                     <Text style={[styles.lastDesc, { fontStyle: 'italic' }]}>
-                      Pas de résumé fourni par l'administrateur.
+                      Pas de résumé fourni par l'équipe des Partenaires DM.
                     </Text>
                   )}
                   <View style={{ flexDirection: 'row', gap: 10, marginTop: 18 }}>
@@ -277,7 +286,7 @@ export default function ClientHome() {
             ) : (
               <Card padding={20} variant="low" noShadow style={{ marginBottom: 32 }}>
                 <Text style={{ color: colors.onSurfaceVariant, fontSize: 13, textAlign: 'center' }}>
-                  Aucune intervention validée pour l'instant. Tes premiers rapports apparaîtront ici.
+                  Aucune intervention validée pour l'instant. Vos premiers rapports apparaîtront ici.
                 </Text>
               </Card>
             )}

@@ -27,6 +27,7 @@ export default function AdminLayout() {
       <Stack.Screen name="incident/[id]" />
       <Stack.Screen name="conversation/[id]" />
       <Stack.Screen name="compte" />
+      <Stack.Screen name="comptes" />
     </Stack>
   );
 }

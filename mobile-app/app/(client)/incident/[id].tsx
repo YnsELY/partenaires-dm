@@ -20,6 +20,7 @@ import { PhotoViewer, ViewerPhoto } from '../../../components/PhotoViewer';
 import { colors, radii, responsive, typography } from '../../../constants/theme';
 import { supabase, Incident, Site, Media } from '../../../lib/supabase';
 import { incidentDisplay } from '../../../lib/incidentStatus';
+import { notifyEvent } from '../../../lib/notifications';
 
 type Bundle = Incident & {
   site: Pick<Site, 'id' | 'name' | 'address'> | null;
@@ -83,7 +84,7 @@ export default function ClientIncidentDetail() {
     if (!bundle) return;
     Alert.alert(
       'Clôturer le signalement',
-      'Confirmes-tu que le problème a bien été résolu ? Cette action est définitive.',
+      'Confirmez-vous que le problème a bien été résolu ? Cette action est définitive.',
       [
         { text: 'Annuler', style: 'cancel' },
         {
@@ -103,7 +104,8 @@ export default function ClientIncidentDetail() {
               Alert.alert('Erreur', err.message);
               return;
             }
-            Alert.alert('Signalement clôturé', 'Merci pour ton retour.', [
+            notifyEvent('incident_closed', bundle.id);
+            Alert.alert('Signalement clôturé', 'Merci pour votre retour.', [
               { text: 'OK', onPress: () => router.back() },
             ]);
           },
@@ -142,7 +144,7 @@ export default function ClientIncidentDetail() {
         <View style={styles.errorBox}>
           <MaterialIcons name="error-outline" size={36} color={colors.outline} />
           <Text style={{ marginTop: 8, color: colors.onSurfaceVariant, textAlign: 'center' }}>
-            {error ?? 'Signalement introuvable.'}
+            {error ?? 'Ce signalement est introuvable.'}
           </Text>
         </View>
       </SafeAreaView>
@@ -296,15 +298,15 @@ export default function ClientIncidentDetail() {
               onPress={reopenSignal}
             />
             <Text style={styles.helperText}>
-              Si la résolution te convient, clôture le signalement. Sinon, refais un signalement
-              en décrivant ce qui n'est pas satisfaisant.
+              Si la résolution vous convient, clôturez le signalement. Sinon, effectuez un nouveau
+              signalement en décrivant ce qui n'est pas satisfaisant.
             </Text>
           </View>
         ) : bundle.status === 'closed' ? (
           <View style={styles.finalBanner}>
             <MaterialIcons name="check-circle" size={20} color={colors.primary} />
             <Text style={{ color: colors.primary, fontSize: 13, fontWeight: '600', flex: 1 }}>
-              Signalement clôturé. Merci pour ton retour.
+              Signalement clôturé. Merci pour votre retour.
             </Text>
           </View>
         ) : (
@@ -312,10 +314,10 @@ export default function ClientIncidentDetail() {
             <MaterialIcons name="hourglass-empty" size={20} color={colors.primary} />
             <Text style={styles.progressText}>
               {bundle.status === 'open'
-                ? "Notre équipe va prendre en charge ton signalement très bientôt."
+                ? "L'équipe des Partenaires DM va prendre en charge votre signalement très bientôt."
                 : bundle.status === 'assigned'
-                ? "Un agent a été désigné, il interviendra dès que possible."
-                : 'Un agent est en train de traiter ton signalement.'}
+                ? "Un intervenant a été désigné, il interviendra dès que possible."
+                : "Un intervenant est en train de traiter votre signalement."}
             </Text>
           </View>
         )}

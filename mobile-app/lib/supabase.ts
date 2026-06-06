@@ -32,6 +32,15 @@ export const supabase = createClient(SUPABASE_URL ?? '', SUPABASE_ANON_KEY ?? ''
 
 export type Role = 'admin' | 'agent' | 'client';
 
+export type AppConfig = {
+  id: boolean;
+  min_supported_version: string;
+  ios_app_url: string | null;
+  android_app_url: string | null;
+  update_message: string | null;
+  updated_at: string;
+};
+
 export type Profile = {
   id: string;
   role: Role;
@@ -60,6 +69,7 @@ export type Intervention = {
     | 'rejected';
   agent_notes: string | null;
   admin_summary: string | null;
+  admin_details: string | null;
   admin_notes: string | null;
   global_result: 'ok' | 'to_improve' | null;
   pdf_url: string | null;
@@ -153,6 +163,18 @@ export type TeamMember = {
   agent_id: string;
 };
 
+export type InterventionAgent = {
+  intervention_id: string;
+  agent_id: string;
+  created_at: string;
+};
+
+export type SiteAgent = {
+  site_id: string;
+  agent_id: string;
+  created_at: string;
+};
+
 export type IncidentStatus =
   | 'open'
   | 'assigned'
@@ -193,6 +215,40 @@ export type Evaluation = {
   comment: string | null;
   created_at: string;
   updated_at: string;
+};
+
+export type PushToken = {
+  id: string;
+  user_id: string;
+  expo_push_token: string;
+  device_id: string | null;
+  platform: 'ios' | 'android' | 'web' | 'unknown';
+  device_name: string | null;
+  app_version: string | null;
+  is_active: boolean;
+  last_seen_at: string;
+  disabled_at: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+export type NotificationEvent = {
+  id: string;
+  event_type: string;
+  actor_id: string | null;
+  entity_type: string | null;
+  entity_id: string | null;
+  recipient_user_ids: string[];
+  title: string;
+  body: string;
+  data: Record<string, unknown>;
+  status: 'created' | 'sent' | 'partial_error' | 'no_tokens' | 'error';
+  recipient_count: number;
+  ticket_count: number;
+  tickets: unknown | null;
+  error: string | null;
+  sent_at: string | null;
+  created_at: string;
 };
 
 export type Conversation = {

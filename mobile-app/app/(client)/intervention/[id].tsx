@@ -119,7 +119,7 @@ export default function ClientInterventionDetail() {
     if (!intervention?.pdf_url) {
       Alert.alert(
         'Rapport non disponible',
-        "Le rapport PDF n'a pas encore été généré par l'administrateur."
+        "Le rapport PDF n'a pas encore été généré par l'équipe des Partenaires DM."
       );
       return;
     }
@@ -138,7 +138,7 @@ export default function ClientInterventionDetail() {
     }
     try {
       await save({ rating: stars || null, satisfaction: satisfied, comment });
-      Alert.alert('Avis envoyé', 'Merci pour ton retour.');
+      Alert.alert('Avis envoyé', 'Merci pour votre retour.');
     } catch (e: any) {
       Alert.alert('Erreur', e?.message ?? "Impossible d'envoyer l'avis");
     }
@@ -167,7 +167,7 @@ export default function ClientInterventionDetail() {
           </View>
           <Text style={styles.emptyTitle}>Intervention introuvable</Text>
           <Text style={styles.emptySub}>
-            Cette intervention n'existe plus ou tu n'y as pas accès.
+            Cette intervention n'existe plus ou vous n'y avez pas accès.
           </Text>
         </View>
       </SafeAreaView>
@@ -246,9 +246,25 @@ export default function ClientInterventionDetail() {
           <View style={styles.summaryBox}>
             <Text style={{ color: colors.onSurfaceVariant, fontSize: 14, lineHeight: 22 }}>
               {intervention.admin_summary?.trim() ||
-                "L'administrateur n'a pas fourni de résumé pour cette intervention."}
+                "L'équipe des Partenaires DM n'a pas fourni de résumé pour cette intervention."}
             </Text>
           </View>
+
+          {intervention.admin_details?.trim() ? (
+            <View style={styles.detailsBox}>
+              <Text style={styles.detailsLabel}>DÉTAILS COMPLÉMENTAIRES</Text>
+              <Text
+                style={{
+                  color: colors.onSurface,
+                  fontSize: 14,
+                  lineHeight: 22,
+                  marginTop: 8,
+                }}
+              >
+                {intervention.admin_details}
+              </Text>
+            </View>
+          ) : null}
         </Card>
 
         <PrimaryButton
@@ -371,7 +387,7 @@ export default function ClientInterventionDetail() {
           </Text>
           {evaluation ? (
             <Text style={{ color: colors.onSurfaceVariant, fontSize: 12, marginBottom: 14 }}>
-              Tu peux modifier ton avis à tout moment.
+              Vous pouvez modifier votre avis à tout moment.
             </Text>
           ) : null}
           <View style={styles.starsRow}>
@@ -514,6 +530,20 @@ const styles = StyleSheet.create({
     backgroundColor: colors.surfaceContainerLow,
     padding: 16,
     borderRadius: radii.lg,
+  },
+  detailsBox: {
+    marginTop: 14,
+    backgroundColor: colors.surfaceContainerLow,
+    padding: 16,
+    borderRadius: radii.lg,
+    borderLeftWidth: 3,
+    borderLeftColor: colors.primary,
+  },
+  detailsLabel: {
+    fontSize: 10,
+    fontWeight: '800',
+    letterSpacing: 1.4,
+    color: colors.primary,
   },
   photoGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 12 },
   photoTile: {

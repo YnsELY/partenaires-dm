@@ -19,6 +19,9 @@ import { Avatar } from '../../components/Avatar';
 import { Card } from '../../components/Card';
 import { Badge } from '../../components/Badge';
 import { PrimaryButton } from '../../components/PrimaryButton';
+import { PushDebugCard } from '../../components/PushDebugCard';
+import { DeleteAccountCard } from '../../components/DeleteAccountCard';
+import { LegalCard } from '../../components/LegalCard';
 import { colors, radii, responsive, typography } from '../../constants/theme';
 import { useAuth } from '../../contexts/AuthContext';
 import { supabase } from '../../lib/supabase';
@@ -70,7 +73,7 @@ export default function ClientCompte() {
   };
 
   const onSignOut = () => {
-    Alert.alert('Déconnexion', 'Tu es sûr·e de vouloir te déconnecter ?', [
+    Alert.alert('Déconnexion', 'Êtes-vous sûr(e) de vouloir vous déconnecter ?', [
       { text: 'Annuler', style: 'cancel' },
       { text: 'Se déconnecter', style: 'destructive', onPress: () => signOut() },
     ]);
@@ -162,6 +165,12 @@ export default function ClientCompte() {
               <Text style={styles.signOutText}>Se déconnecter</Text>
             </Pressable>
           </Card>
+
+          <PushDebugCard />
+
+          <LegalCard />
+
+          <DeleteAccountCard />
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>

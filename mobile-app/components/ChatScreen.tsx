@@ -80,7 +80,10 @@ export function ChatScreen({ conversationId }: Props) {
       }
       setConversation(conv as Conversation);
 
-      const otherId = conv.admin_id === userId ? conv.agent_id : conv.admin_id;
+      const otherId =
+        userId === conv.admin_id
+          ? (conv.agent_id ?? conv.client_id)
+          : conv.admin_id;
       const { data: prof } = await supabase
         .from('profiles')
         .select('id, full_name, avatar_url, role')
@@ -126,7 +129,9 @@ export function ChatScreen({ conversationId }: Props) {
     listRef.current?.scrollToOffset({ offset: 0, animated: true });
   }, [input, send]);
 
-  const partnerName = partner?.full_name ?? (partner?.role === 'admin' ? 'Administration' : 'Agent');
+  const partnerName =
+    partner?.full_name ??
+    (partner?.role === 'admin' ? 'Administration' : partner?.role === 'client' ? 'Client' : 'Agent');
   const initials =
     partnerName
       .split(' ')

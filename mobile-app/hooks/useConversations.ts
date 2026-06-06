@@ -148,14 +148,12 @@ export function useConversations() {
   }, [userId, role, refresh]);
 
   /**
-   * Crée (ou retrouve) la conversation entre l'admin courant et un agent
-   * donné. À appeler uniquement côté admin.
+   * Crée (ou retrouve) la conversation entre l'admin courant et un agent donné.
    */
   const openConversationWith = useCallback(
     async (agentId: string): Promise<string | null> => {
       if (!userId || role !== 'admin') return null;
 
-      // Cherche d'abord une conversation existante
       const { data: existing, error: findErr } = await supabase
         .from('conversations')
         .select('id')
@@ -163,10 +161,7 @@ export function useConversations() {
         .eq('agent_id', agentId)
         .maybeSingle();
 
-      if (findErr) {
-        setError(findErr.message);
-        return null;
-      }
+      if (findErr) { setError(findErr.message); return null; }
       if (existing?.id) return existing.id;
 
       const { data: created, error: insErr } = await supabase
@@ -175,15 +170,42 @@ export function useConversations() {
         .select('id')
         .single();
 
-      if (insErr) {
-        setError(insErr.message);
-        return null;
-      }
+      if (insErr) { setError(insErr.message); return null; }
       await refresh();
       return created.id;
     },
     [userId, role, refresh]
   );
 
-  return { conversations, loading, error, refresh, openConversationWith };
+  /**
+   * Crée (ou retrouve) la conversation entre l'admin courant et un client donné.
+   */
+  const openConversationWithClient = useCallback(
+    async (clientId: string): Promise<string | null> => {
+      if (!userId || role !== 'admin') return null;
+
+      const { data: existing, error: findErr } = await supabase
+        .from('conversations')
+        .select('id')
+        .eq('admin_id', userId)
+        .eq('client_id', clientId)
+        .maybeSingle();
+
+      if (findErr) { setError(findErr.message); return null; }
+      if (existing?.id) return existing.id;
+
+      const { data: created, error: insErr } = await supabase
+        .from('conversations')
+        .insert({ admin_id: userId, client_id: clientId })
+        .select('id')
+        .single();
+
+      if (insErr) { setError(insErr.message); return null; }
+      await refresh();
+      return created.id;
+    },
+    [userId, role, refresh]
+  );
+
+  return { conversations, loading, error, refresh, openConversationWith, openConversationWithClient };
 }

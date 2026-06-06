@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { supabase, Message } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
+import { notifyEvent } from '../lib/notifications';
 
 /**
  * Hook de messagerie temps réel pour une conversation donnée.
@@ -128,16 +129,20 @@ export function useMessages(conversationId: string | null) {
 
       // Insertion optimiste — on attend la confirmation realtime/insert
       // pour garder l'id réel, donc on ne touche pas à `messages` ici.
-      const { error: err } = await supabase
+      const { data, error: err } = await supabase
         .from('messages')
         .insert({
           conversation_id: conversationId,
           sender_id: userId,
           body: trimmed,
-        });
+        })
+        .select('id')
+        .maybeSingle();
 
       if (err) {
         setError(err.message);
+      } else if (data?.id) {
+        notifyEvent('message_created', data.id);
       }
       setSending(false);
     },

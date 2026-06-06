@@ -70,7 +70,19 @@ Deno.serve(async (req) => {
   if (ivError || !intervention) {
     return json({ error: 'Intervention not found' }, 404);
   }
-  if (intervention.agent_id !== agentId) {
+
+  // L'agent doit être l'agent principal OU rattaché via intervention_agents.
+  let isAssigned = intervention.agent_id === agentId;
+  if (!isAssigned) {
+    const { data: link } = await admin
+      .from('intervention_agents')
+      .select('agent_id')
+      .eq('intervention_id', intervention.id)
+      .eq('agent_id', agentId)
+      .maybeSingle();
+    isAssigned = !!link;
+  }
+  if (!isAssigned) {
     return json({ error: 'You are not assigned to this intervention' }, 403);
   }
   if (intervention.status === 'pending_validation' || intervention.status === 'validated') {
@@ -162,6 +174,8 @@ Deno.serve(async (req) => {
     return json({ error: updateError.message }, 500);
   }
 
+  triggerNotification(req, 'intervention_submitted', intervention_id);
+
   return json({ ok: true }, 200);
 });
 
@@ -170,4 +184,27 @@ function json(payload: unknown, status: number) {
     status,
     headers: { ...corsHeaders, 'Content-Type': 'application/json' },
   });
+}
+
+function triggerNotification(req: Request, type: string, entityId: string): void {
+  const SUPABASE_URL = Deno.env.get('SUPABASE_URL');
+  const authHeader = req.headers.get('Authorization');
+  if (!SUPABASE_URL || !authHeader) return;
+
+  const task = fetch(`${SUPABASE_URL}/functions/v1/dispatch-notification`, {
+    method: 'POST',
+    headers: {
+      Authorization: authHeader,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ type, entity_id: entityId }),
+  }).catch((e) => {
+    console.error('[submit-intervention] notification error:', e);
+  });
+
+  // @ts-ignore EdgeRuntime n'est pas dans les types par défaut
+  if (typeof EdgeRuntime !== 'undefined' && EdgeRuntime?.waitUntil) {
+    // @ts-ignore
+    EdgeRuntime.waitUntil(task);
+  }
 }

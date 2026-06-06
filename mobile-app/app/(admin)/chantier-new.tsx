@@ -18,13 +18,17 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Header } from '../../components/Header';
 import { Card } from '../../components/Card';
 import { PrimaryButton } from '../../components/PrimaryButton';
+import { Avatar } from '../../components/Avatar';
 import { ChecklistEditor, EditableTask } from '../../components/ChecklistEditor';
 import { colors, radii, responsive, typography } from '../../constants/theme';
 import { supabase, Client } from '../../lib/supabase';
 import { useAdminClients } from '../../hooks/useAdminClients';
+import { useAdminAgents } from '../../hooks/useAdminAgents';
+import { notifyEvent } from '../../lib/notifications';
 
 export default function ChantierNew() {
   const { clients, loading: clientsLoading } = useAdminClients();
+  const { agents, loading: agentsLoading } = useAdminAgents();
 
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
@@ -34,7 +38,18 @@ export default function ChantierNew() {
 
   const [selectedClient, setSelectedClient] = useState<Client | null>(null);
   const [clientModal, setClientModal] = useState(false);
+  const [selectedAgentIds, setSelectedAgentIds] = useState<string[]>([]);
+  const [agentModal, setAgentModal] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+
+  const selectedAgents = selectedAgentIds
+    .map((id) => agents.find((a) => a.id === id))
+    .filter(Boolean);
+
+  const toggleAgent = (id: string) =>
+    setSelectedAgentIds((prev) =>
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+    );
 
   const onSubmit = async () => {
     if (!selectedClient) return Alert.alert('Champ requis', 'Choisis un client.');
@@ -60,6 +75,21 @@ export default function ChantierNew() {
       return;
     }
 
+    if (selectedAgentIds.length > 0) {
+      const { error: agentsErr } = await supabase
+        .from('site_agents')
+        .insert(selectedAgentIds.map((agentId) => ({ site_id: site.id, agent_id: agentId })));
+      if (agentsErr) {
+        setSubmitting(false);
+        Alert.alert(
+          'Chantier créé mais',
+          `Erreur de rattachement des agents : ${agentsErr.message}`
+        );
+        router.replace('/(admin)/(tabs)/home');
+        return;
+      }
+    }
+
     if (tasks.length > 0) {
       const rows = tasks.map((t, i) => ({
         site_id: site.id,
@@ -83,6 +113,7 @@ export default function ChantierNew() {
     }
 
     setSubmitting(false);
+    notifyEvent('site_created', site.id);
     Alert.alert('Chantier créé', 'Tu peux maintenant planifier une intervention dessus.', [
       { text: 'OK', onPress: () => router.replace('/(admin)/(tabs)/home') },
     ]);
@@ -184,6 +215,43 @@ export default function ChantierNew() {
                 placeholderTextColor={colors.outline}
                 style={[styles.input, { minHeight: 96, textAlignVertical: 'top' }]}
               />
+            </Field>
+
+            <Field label="AGENT(S) RATTACHÉ(S)">
+              <Pressable
+                style={styles.picker}
+                onPress={() => setAgentModal(true)}
+                disabled={agentsLoading || agents.length === 0}
+              >
+                <Text
+                  style={[styles.pickerText, selectedAgents.length === 0 && { color: colors.outline }]}
+                  numberOfLines={1}
+                >
+                  {selectedAgents.length === 0
+                    ? agents.length === 0
+                      ? 'Aucun agent disponible'
+                      : 'Choisir un ou plusieurs agents...'
+                    : `${selectedAgents.length} agent(s) sélectionné(s)`}
+                </Text>
+                <MaterialIcons name="expand-more" size={22} color={colors.onSurfaceVariant} />
+              </Pressable>
+              <Text style={styles.helper}>
+                Ces agents seront proposés par défaut à chaque intervention sur ce chantier.
+              </Text>
+              {selectedAgents.length > 0 ? (
+                <View style={styles.chipWrap}>
+                  {selectedAgents.map((a) => (
+                    <View key={a!.id} style={styles.agentChip}>
+                      <Text style={styles.agentChipText} numberOfLines={1}>
+                        {a!.full_name ?? a!.email ?? 'Agent'}
+                      </Text>
+                      <Pressable hitSlop={6} onPress={() => toggleAgent(a!.id)}>
+                        <MaterialIcons name="close" size={16} color={colors.primary} />
+                      </Pressable>
+                    </View>
+                  ))}
+                </View>
+              ) : null}
             </Field>
           </Card>
 
@@ -319,6 +387,80 @@ export default function ChantierNew() {
           </Pressable>
         </Pressable>
       </Modal>
+
+      <Modal visible={agentModal} transparent animationType="slide">
+        <Pressable style={styles.overlay} onPress={() => setAgentModal(false)}>
+          <Pressable style={styles.sheet} onPress={() => {}}>
+            <View style={styles.handle} />
+            <Text style={styles.sheetTitle}>Choisir un ou plusieurs agents</Text>
+            {agentsLoading ? (
+              <ActivityIndicator color={colors.primary} style={{ paddingVertical: 30 }} />
+            ) : agents.length === 0 ? (
+              <Text style={styles.sheetHint}>
+                Crée d'abord un agent depuis l'onglet Équipes.
+              </Text>
+            ) : (
+              <>
+                <ScrollView style={{ maxHeight: 380 }}>
+                  {agents.map((a) => {
+                    const active = selectedAgentIds.includes(a.id);
+                    return (
+                      <Pressable
+                        key={a.id}
+                        style={[
+                          styles.option,
+                          active && { backgroundColor: colors.surfaceContainerLow },
+                        ]}
+                        onPress={() => toggleAgent(a.id)}
+                      >
+                        <Avatar
+                          size={36}
+                          initials={(a.full_name ?? a.email ?? '?')
+                            .split(' ')
+                            .filter(Boolean)
+                            .slice(0, 2)
+                            .map((s) => s[0]?.toUpperCase())
+                            .join('')}
+                        />
+                        <View style={{ flex: 1, minWidth: 0 }}>
+                          <Text
+                            style={{ fontSize: 15, fontWeight: '600', color: colors.onSurface }}
+                            numberOfLines={1}
+                          >
+                            {a.full_name ?? a.email ?? 'Agent'}
+                          </Text>
+                          {a.email ? (
+                            <Text
+                              style={{ fontSize: 12, color: colors.onSurfaceVariant }}
+                              numberOfLines={1}
+                            >
+                              {a.email}
+                            </Text>
+                          ) : null}
+                        </View>
+                        <MaterialIcons
+                          name={active ? 'check-box' : 'check-box-outline-blank'}
+                          size={22}
+                          color={active ? colors.primary : colors.outline}
+                        />
+                      </Pressable>
+                    );
+                  })}
+                </ScrollView>
+                <PrimaryButton
+                  label={
+                    selectedAgentIds.length > 0
+                      ? `Valider (${selectedAgentIds.length})`
+                      : 'Valider'
+                  }
+                  style={{ marginTop: 12 }}
+                  onPress={() => setAgentModal(false)}
+                />
+              </>
+            )}
+          </Pressable>
+        </Pressable>
+      </Modal>
     </SafeAreaView>
   );
 }
@@ -383,6 +525,31 @@ const styles = StyleSheet.create({
   },
   pickerText: { flex: 1, fontSize: 14, color: colors.onSurface, marginRight: 10 },
   helper: { fontSize: 12, color: colors.onSurfaceVariant, marginTop: 4 },
+  chipWrap: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+    marginTop: 10,
+  },
+  agentChip: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    paddingLeft: 12,
+    paddingRight: 8,
+    paddingVertical: 7,
+    borderRadius: 999,
+    backgroundColor: 'rgba(0, 35, 111, 0.10)',
+    borderWidth: 1,
+    borderColor: colors.primary,
+    maxWidth: '100%',
+  },
+  agentChipText: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: colors.primary,
+    flexShrink: 1,
+  },
   addTaskBtn: {
     width: 50,
     height: 50,

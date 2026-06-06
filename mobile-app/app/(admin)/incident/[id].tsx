@@ -24,6 +24,7 @@ import { colors, radii, responsive, typography } from '../../../constants/theme'
 import { supabase, Incident, Site, Profile, Media } from '../../../lib/supabase';
 import { incidentDisplay } from '../../../lib/incidentStatus';
 import { useAdminAgents } from '../../../hooks/useAdminAgents';
+import { notifyEvent } from '../../../lib/notifications';
 
 type Bundle = Incident & {
   site: Pick<Site, 'id' | 'name' | 'address'> | null;
@@ -136,6 +137,7 @@ export default function AdminIncidentDetail() {
       Alert.alert('Erreur', err.message);
       return;
     }
+    notifyEvent('incident_assigned', bundle.id);
     Alert.alert('Signalement envoyé', "L'agent a reçu le signalement.", [
       { text: 'OK', onPress: () => router.back() },
     ]);
@@ -166,6 +168,7 @@ export default function AdminIncidentDetail() {
               Alert.alert('Erreur', err.message);
               return;
             }
+            notifyEvent('incident_resolved', bundle.id);
             Alert.alert('Résolution validée', '', [
               { text: 'OK', onPress: () => router.back() },
             ]);

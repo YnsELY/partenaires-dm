@@ -67,7 +67,7 @@ export default function ClientReports() {
       >
         <Text style={{ ...typography.h2, color: colors.primary }}>Mes rapports</Text>
         <Text style={styles.subtitle}>
-          Consulte et télécharge les rapports d'intervention validés sur tes sites.
+          Consultez et téléchargez les rapports d'intervention validés sur vos sites.
         </Text>
 
         <View style={styles.searchRow}>
@@ -99,7 +99,7 @@ export default function ClientReports() {
               <Text style={styles.emptySub}>
                 {search.trim()
                   ? 'Essaie un autre terme de recherche.'
-                  : "Tes rapports d'intervention apparaîtront ici une fois validés par l'administrateur."}
+                  : "Vos rapports d'intervention apparaîtront ici une fois validés par l'équipe des Partenaires DM."}
               </Text>
             </View>
           </Card>

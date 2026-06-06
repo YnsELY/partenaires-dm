@@ -30,6 +30,7 @@ import {
 import { useAuth } from '../../../contexts/AuthContext';
 import { formatFrequencyBadge } from '../../../hooks/useCatalog';
 import { PhotoViewer, ViewerPhoto } from '../../../components/PhotoViewer';
+import { notifyEvent } from '../../../lib/notifications';
 
 type ChecklistResultMap = Record<string, ChecklistResult>; // task_id → result
 type MediaByZoneType = Record<string, Media[]>; // `${zone}|${type}` → liste de photos
@@ -187,19 +188,44 @@ export default function AgentMission() {
       if (!intervention || !session?.user?.id) return;
       const key = `${zone}|${type}`;
 
-      // Permissions
-      const perm = await ImagePicker.requestCameraPermissionsAsync();
-      const libPerm = await ImagePicker.requestMediaLibraryPermissionsAsync();
-      if (!perm.granted && !libPerm.granted) {
-        Alert.alert('Permissions', "Autorise l'accès à la caméra ou aux photos.");
-        return;
+      const source = await new Promise<'camera' | 'library' | null>((resolve) => {
+        Alert.alert(
+          'Ajouter une photo',
+          'Choisir la source',
+          [
+            { text: 'Caméra', onPress: () => resolve('camera') },
+            { text: 'Galerie', onPress: () => resolve('library') },
+            { text: 'Annuler', style: 'cancel', onPress: () => resolve(null) },
+          ]
+        );
+      });
+      if (!source) return;
+
+      if (source === 'camera') {
+        const perm = await ImagePicker.requestCameraPermissionsAsync();
+        if (!perm.granted) {
+          Alert.alert('Permission refusée', "Autorise l'accès à la caméra dans les réglages.");
+          return;
+        }
+      } else {
+        const libPerm = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (!libPerm.granted) {
+          Alert.alert('Permission refusée', "Autorise l'accès à la galerie dans les réglages.");
+          return;
+        }
       }
 
-      const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ['images'],
-        quality: 0.8,
-        allowsEditing: false,
-      });
+      const result = source === 'camera'
+        ? await ImagePicker.launchCameraAsync({
+            mediaTypes: ['images'],
+            quality: 0.8,
+            allowsEditing: false,
+          })
+        : await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ['images'],
+            quality: 0.8,
+            allowsEditing: false,
+          });
 
       if (result.canceled || !result.assets?.[0]?.uri) return;
       const asset = result.assets[0];
@@ -282,6 +308,7 @@ export default function AgentMission() {
       return;
     }
     setIntervention((iv) => (iv ? { ...iv, status: 'in_progress', started_at: now } : iv));
+    notifyEvent('intervention_started', intervention.id);
   }, [intervention]);
 
   const openViewer = useCallback((photos: Media[], initialIndex: number) => {
@@ -307,14 +334,19 @@ export default function AgentMission() {
 
       // Anomalie en option : crée un incident si toggled
       if (anomaly && anomalyDesc.trim()) {
-        await supabase.from('incidents').insert({
+        const { data: incident } = await supabase
+          .from('incidents')
+          .insert({
           intervention_id: intervention.id,
           site_id: intervention.site_id,
           reported_by: session?.user?.id,
           reporter_role: 'agent',
           description: anomalyDesc.trim(),
           status: 'open',
-        });
+          })
+          .select('id')
+          .maybeSingle();
+        if (incident?.id) notifyEvent('incident_created', incident.id);
       }
 
       const { data, error: fnError } = await supabase.functions.invoke('submit-intervention', {

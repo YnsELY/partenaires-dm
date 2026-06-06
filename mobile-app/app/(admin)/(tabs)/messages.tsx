@@ -9,6 +9,8 @@ import {
   Pressable,
   Modal,
   TextInput,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
@@ -20,11 +22,21 @@ import { colors, radii, responsive, shadows, typography } from '../../../constan
 import { useAuth } from '../../../contexts/AuthContext';
 import { useConversations } from '../../../hooks/useConversations';
 import { useAdminAgents } from '../../../hooks/useAdminAgents';
+import { useAdminClientUsers } from '../../../hooks/useAdminClientUsers';
+
+type Contact = {
+  id: string;
+  full_name: string | null;
+  email: string | null;
+  role: 'agent' | 'client';
+};
 
 export default function AdminMessages() {
   const { profile } = useAuth();
-  const { conversations, loading, refresh, openConversationWith } = useConversations();
+  const { conversations, loading, refresh, openConversationWith, openConversationWithClient } =
+    useConversations();
   const { agents } = useAdminAgents();
+  const { users: clientUsers } = useAdminClientUsers({ scope: 'all' });
   const [pickerOpen, setPickerOpen] = useState(false);
   const [search, setSearch] = useState('');
   const [opening, setOpening] = useState(false);
@@ -40,25 +52,47 @@ export default function AdminMessages() {
     [profile?.full_name]
   );
 
-  const filteredAgents = useMemo(() => {
-    const q = search.trim().toLowerCase();
-    if (!q) return agents;
-    return agents.filter((a) =>
-      (a.full_name ?? '').toLowerCase().includes(q) ||
-      (a.email ?? '').toLowerCase().includes(q)
+  const contacts = useMemo<Contact[]>(() => {
+    const agentContacts: Contact[] = agents.map((a) => ({
+      id: a.id,
+      full_name: a.full_name ?? null,
+      email: a.email ?? null,
+      role: 'agent',
+    }));
+    const clientContacts: Contact[] = clientUsers.map((c) => ({
+      id: c.id,
+      full_name: c.full_name ?? null,
+      email: c.email ?? null,
+      role: 'client',
+    }));
+    return [...agentContacts, ...clientContacts].sort((a, b) =>
+      (a.full_name ?? '').localeCompare(b.full_name ?? '', 'fr')
     );
-  }, [agents, search]);
+  }, [agents, clientUsers]);
 
-  const handlePickAgent = useCallback(
-    async (agentId: string) => {
+  const filteredContacts = useMemo(() => {
+    const q = search.trim().toLowerCase();
+    if (!q) return contacts;
+    return contacts.filter(
+      (c) =>
+        (c.full_name ?? '').toLowerCase().includes(q) ||
+        (c.email ?? '').toLowerCase().includes(q)
+    );
+  }, [contacts, search]);
+
+  const handlePickContact = useCallback(
+    async (contact: Contact) => {
       setOpening(true);
-      const id = await openConversationWith(agentId);
+      const id =
+        contact.role === 'agent'
+          ? await openConversationWith(contact.id)
+          : await openConversationWithClient(contact.id);
       setOpening(false);
       setPickerOpen(false);
       setSearch('');
       if (id) router.push({ pathname: '/(admin)/conversation/[id]', params: { id } });
     },
-    [openConversationWith]
+    [openConversationWith, openConversationWithClient]
   );
 
   return (
@@ -104,7 +138,8 @@ export default function AdminMessages() {
           }
           renderItem={({ item }) => (
             <ConversationRow
-              name={item.partner?.full_name ?? 'Agent'}
+              name={item.partner?.full_name ?? (item.agent_id ? 'Agent' : 'Client')}
+              role={item.partner?.role ?? (item.agent_id ? 'agent' : 'client')}
               preview={item.last_message_preview}
               lastMessageAt={item.last_message_at}
               unread={item.unread_count}
@@ -126,21 +161,31 @@ export default function AdminMessages() {
         visible={pickerOpen}
         animationType="slide"
         transparent
-        onRequestClose={() => setPickerOpen(false)}
+        onRequestClose={() => { setPickerOpen(false); setSearch(''); }}
       >
-        <View style={styles.modalBackdrop}>
+        <KeyboardAvoidingView
+          style={styles.modalBackdrop}
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        >
+          <Pressable
+            style={StyleSheet.absoluteFill}
+            onPress={() => { setPickerOpen(false); setSearch(''); }}
+          />
           <View style={styles.modalSheet}>
             <View style={styles.modalHandle} />
             <View style={styles.modalHeader}>
               <Text style={styles.modalTitle}>Nouvelle conversation</Text>
-              <Pressable onPress={() => setPickerOpen(false)} style={styles.closeBtn}>
+              <Pressable
+                onPress={() => { setPickerOpen(false); setSearch(''); }}
+                style={styles.closeBtn}
+              >
                 <MaterialIcons name="close" size={22} color={colors.onSurfaceVariant} />
               </Pressable>
             </View>
             <View style={styles.searchWrap}>
               <MaterialIcons name="search" size={18} color={colors.outline} />
               <TextInput
-                placeholder="Rechercher un agent…"
+                placeholder="Rechercher un agent ou un client…"
                 placeholderTextColor={colors.outline}
                 value={search}
                 onChangeText={setSearch}
@@ -148,16 +193,17 @@ export default function AdminMessages() {
                 autoFocus
               />
             </View>
-            {filteredAgents.length === 0 ? (
+            {filteredContacts.length === 0 ? (
               <View style={{ paddingVertical: 32, alignItems: 'center' }}>
                 <Text style={{ color: colors.onSurfaceVariant, fontSize: 13 }}>
-                  Aucun agent ne correspond.
+                  Aucun contact ne correspond.
                 </Text>
               </View>
             ) : (
               <FlatList
-                data={filteredAgents}
-                keyExtractor={(a) => a.id}
+                data={filteredContacts}
+                keyExtractor={(c) => c.id}
+                keyboardShouldPersistTaps="handled"
                 contentContainerStyle={{ paddingBottom: 24, gap: 6 }}
                 renderItem={({ item }) => {
                   const inits =
@@ -169,11 +215,15 @@ export default function AdminMessages() {
                       .join('') || '?';
                   return (
                     <Pressable
-                      onPress={() => handlePickAgent(item.id)}
+                      onPress={() => handlePickContact(item)}
                       disabled={opening}
                       style={styles.agentRow}
                     >
-                      <Avatar initials={inits} size={40} variant="secondary" />
+                      <Avatar
+                        initials={inits}
+                        size={40}
+                        variant={item.role === 'client' ? 'primary' : 'secondary'}
+                      />
                       <View style={{ flex: 1 }}>
                         <Text style={styles.agentName}>{item.full_name ?? 'Sans nom'}</Text>
                         {item.email ? (
@@ -181,6 +231,14 @@ export default function AdminMessages() {
                             {item.email}
                           </Text>
                         ) : null}
+                      </View>
+                      <View style={[
+                        styles.roleBadge,
+                        item.role === 'client' ? styles.roleBadgeClient : styles.roleBadgeAgent,
+                      ]}>
+                        <Text style={styles.roleBadgeText}>
+                          {item.role === 'client' ? 'Client' : 'Agent'}
+                        </Text>
                       </View>
                       {opening ? (
                         <ActivityIndicator color={colors.primary} size="small" />
@@ -193,7 +251,7 @@ export default function AdminMessages() {
               />
             )}
           </View>
-        </View>
+        </KeyboardAvoidingView>
       </Modal>
     </SafeAreaView>
   );
@@ -312,4 +370,13 @@ const styles = StyleSheet.create({
   },
   agentName: { fontSize: 14, fontWeight: '700', color: colors.onSurface },
   agentEmail: { fontSize: 12, color: colors.onSurfaceVariant, marginTop: 2 },
+  roleBadge: {
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 999,
+    marginRight: 4,
+  },
+  roleBadgeAgent: { backgroundColor: 'rgba(0, 99, 152, 0.12)' },
+  roleBadgeClient: { backgroundColor: 'rgba(0, 35, 111, 0.10)' },
+  roleBadgeText: { fontSize: 11, fontWeight: '700', color: colors.primary },
 });
