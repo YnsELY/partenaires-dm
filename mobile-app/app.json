@@ -2,7 +2,7 @@
   "expo": {
     "name": "Les Partenaires DM",
     "slug": "les-partenaires-dm",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "scheme": "partenairesdm",
     "userInterfaceStyle": "light",
@@ -19,7 +19,7 @@
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       },
-      "buildNumber": "2"
+      "buildNumber": "5"
     },
     "android": {
       "package": "com.partenairesmultiservices.app",
@@ -29,7 +29,8 @@
       },
       "permissions": [
         "android.permission.RECORD_AUDIO"
-      ]
+      ],
+      "versionCode": 2
     },
     "web": {
       "bundler": "metro",
